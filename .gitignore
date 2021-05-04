@@ -392,6 +392,7 @@ gradle-app.setting
 
 **/.idea/
 
+**/target/
 
 # gcp
 mco-bucket.json
