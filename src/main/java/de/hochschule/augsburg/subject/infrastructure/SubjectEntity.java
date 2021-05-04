@@ -1,4 +1,4 @@
-package de.hochschule.augsburg.registration.infrastructure.entity;
+package de.hochschule.augsburg.subject.infrastructure;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,8 +15,8 @@ import javax.persistence.Id;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "hsa_subject_selection")
-public class SubjectSelectionEntity {
+@Entity(name = "hsa_subject")
+public class SubjectEntity {
 
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -24,10 +24,11 @@ public class SubjectSelectionEntity {
     @Column(name = "id", unique = true, nullable = false, updatable = false, length = 36)
     private String id;
 
-    @Column(name = "subject", nullable = false)
-    private String subject;
+    @Column(name = "name", nullable = false)
+    private String name;
 
-    @Column(name = "points", nullable = false)
-    private Integer points;
+    @Column(name = "professor", nullable = false)
+    private String professor;
+
 
 }

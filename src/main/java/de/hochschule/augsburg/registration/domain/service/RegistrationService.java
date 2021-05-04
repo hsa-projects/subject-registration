@@ -7,6 +7,7 @@ import de.hochschule.augsburg.registration.infrastructure.entity.RegistrationEnt
 import de.hochschule.augsburg.registration.infrastructure.repository.RegistrationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.camunda.bpm.engine.RuntimeService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class RegistrationService {
 
     private final RegistrationRepository registrationRepository;
     private final RegistrationMapper registrationMapper;
+    private final RuntimeService runtimeService;
 
     /**
      * Get all registrations.
@@ -54,6 +56,7 @@ public class RegistrationService {
 
 
         //TODO start a process
+//        runtimeService.startProcessInstanceByKey("MeinTollerProzess");
 
         newRegistration.assignStudent(student);
         return this.saveRegistration(newRegistration);

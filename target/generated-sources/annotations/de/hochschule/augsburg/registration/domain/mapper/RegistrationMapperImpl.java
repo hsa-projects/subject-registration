@@ -73,9 +73,7 @@ public class RegistrationMapperImpl implements RegistrationMapper {
 
         subjectSelectionEntity.id( subjectSelection.getId() );
         subjectSelectionEntity.subject( subjectSelection.getSubject() );
-        if ( subjectSelection.getPoints() != null ) {
-            subjectSelectionEntity.points( String.valueOf( subjectSelection.getPoints() ) );
-        }
+        subjectSelectionEntity.points( subjectSelection.getPoints() );
 
         return subjectSelectionEntity.build();
     }
@@ -102,9 +100,7 @@ public class RegistrationMapperImpl implements RegistrationMapper {
 
         subjectSelection.id( subjectSelectionEntity.getId() );
         subjectSelection.subject( subjectSelectionEntity.getSubject() );
-        if ( subjectSelectionEntity.getPoints() != null ) {
-            subjectSelection.points( Integer.parseInt( subjectSelectionEntity.getPoints() ) );
-        }
+        subjectSelection.points( subjectSelectionEntity.getPoints() );
 
         return subjectSelection.build();
     }

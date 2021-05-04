@@ -31,11 +31,10 @@ public class RegistrationController {
     private final RegistrationApiMapper registrationApiMapper;
     private final UserContext userContext;
 
-    //TODO Security?
     @GetMapping
     @Transactional(readOnly = true)
     @Operation(summary = "Get list of all Registrations")
-    public ResponseEntity<List<RegistrationTO>> getAllProject() {
+    public ResponseEntity<List<RegistrationTO>> getAllRegistrations() {
         log.debug("Received request to get all registrations");
         final List<Registration> allProjects = this.registrationService.getAllRegistrations();
         return ResponseEntity.ok().body(this.registrationApiMapper.map(allProjects));
@@ -51,13 +50,12 @@ public class RegistrationController {
     }
 
     @Transactional
-    @PostMapping("/{registrationId}")
+    @PutMapping()
     @Operation(summary = "Update an existing registration")
     public ResponseEntity<RegistrationTO> updateProject(
-            @PathVariable("registrationId") final String registrationId,
             @RequestBody @Valid final RegistrationUpdateTO updateTO
     ) {
-        log.debug("Received request to update the registration with the id '{}'", registrationId);
+        log.debug("Received request to update the registration with the id '{}'", updateTO.getId());
         final Registration registration = this.registrationService.updateRegistration(this.registrationApiMapper.map(updateTO), this.userContext.getLoggedInUser());
         return ResponseEntity.ok(this.registrationApiMapper.map(registration));
     }
