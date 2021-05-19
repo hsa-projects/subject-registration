@@ -24,4 +24,11 @@ public class SubjectTO {
     @NotBlank
     private String professor;
 
+    @NotBlank
+    private String creditPoints;
+
+    private String description;
+
+    private String specialization;
+
 }

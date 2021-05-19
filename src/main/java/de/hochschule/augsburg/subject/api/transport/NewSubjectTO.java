@@ -1,5 +1,6 @@
 package de.hochschule.augsburg.subject.api.transport;
 
+import camundajar.impl.scala.Predef;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,5 +21,12 @@ public class NewSubjectTO {
 
     @NotBlank
     private String professor;
+
+    @NotBlank
+    private String creditPoints;
+
+    private String description;
+
+    private String specialization;
 
 }

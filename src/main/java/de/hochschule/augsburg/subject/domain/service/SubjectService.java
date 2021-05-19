@@ -2,8 +2,8 @@ package de.hochschule.augsburg.subject.domain.service;
 
 import de.hochschule.augsburg.subject.domain.mapper.SubjectMapper;
 import de.hochschule.augsburg.subject.domain.model.Subject;
-import de.hochschule.augsburg.subject.infrastructure.SubjectEntity;
-import de.hochschule.augsburg.subject.infrastructure.SubjectRepository;
+import de.hochschule.augsburg.subject.infrastructure.entity.SubjectEntity;
+import de.hochschule.augsburg.subject.infrastructure.repository.SubjectRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
