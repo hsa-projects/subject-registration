@@ -31,9 +31,36 @@ public class SubjectController {
     @GetMapping
     @Transactional(readOnly = true)
     @Operation(summary = "Get list of all Subjects")
-    public ResponseEntity<List<SubjectTO>> getAllSubject() {
+    public ResponseEntity<List<SubjectTO>> getAllSubjects() {
         log.debug("Received request to get all subjects");
-        final List<Subject> subjects = this.subjectService.getAllSubject();
+        final List<Subject> subjects = this.subjectService.getAllSubjects();
+        return ResponseEntity.ok(this.subjectApiMapper.map(subjects));
+    }
+
+    @GetMapping
+    @Transactional(readOnly = true)
+    @Operation(summary = "Get list of subjects by given professor")
+    public ResponseEntity<List<SubjectTO>> getSubjectsByProfessor(String professor) {
+        log.debug("Received request to get subjects by professor");
+        final List<Subject> subjects = this.subjectService.getSubjectsbyProfessor(professor);
+        return ResponseEntity.ok(this.subjectApiMapper.map(subjects));
+    }
+
+    @GetMapping
+    @Transactional(readOnly = true)
+    @Operation(summary = "Get list of subjects by given credit points")
+    public ResponseEntity<List<SubjectTO>> getSubjectsByCreditPoints(Byte creditPoints) {
+        log.debug("Received request to get subjects by given credit points");
+        final List<Subject> subjects = this.subjectService.getSubjectsByCreditPoints(creditPoints);
+        return ResponseEntity.ok(this.subjectApiMapper.map(subjects));
+    }
+
+    @GetMapping
+    @Transactional(readOnly = true)
+    @Operation(summary = "Get list of subjects by given specialization")
+    public ResponseEntity<List<SubjectTO>> getSubjectsBySpecializations(String specialization) {
+        log.debug("Received request to get subjects by specialization");
+        final List<Subject> subjects = this.subjectService.getSubjectsBySpecialization(specialization);
         return ResponseEntity.ok(this.subjectApiMapper.map(subjects));
     }
 
@@ -45,4 +72,12 @@ public class SubjectController {
         return ResponseEntity.ok(this.subjectApiMapper.map(createdSubject));
     }
 
+    @Transactional
+    @DeleteMapping("/{subjectName}")
+    @Operation(summary = "Delete an existing subject")
+    public ResponseEntity<Void> deleteSubject(@PathVariable("subjectName") final String subjectName) {
+        log.debug("Received request to delete the subject with the id '{}'", subjectName);
+        this.subjectService.deleteSubject(subjectName);
+        return ResponseEntity.ok().build();
+    }
 }
