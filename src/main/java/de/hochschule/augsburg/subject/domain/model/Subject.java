@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
+import java.util.UUID;
 
 @Getter
 @Builder
@@ -13,13 +14,13 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 public class Subject {
 
-    private final String id;
+    private final UUID id;
 
     private final String name;
 
     private final String professor;
 
-    private final String creditPoints;
+    private final Byte creditPoints;
 
     private final String description;
 

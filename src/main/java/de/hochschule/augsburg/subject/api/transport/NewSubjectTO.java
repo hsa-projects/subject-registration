@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import java.util.UUID;
 
 @Getter
 @Builder
@@ -23,7 +24,7 @@ public class NewSubjectTO {
     private String professor;
 
     @NotBlank
-    private String creditPoints;
+    private Byte creditPoints;
 
     private String description;
 

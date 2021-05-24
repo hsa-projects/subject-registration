@@ -71,9 +71,7 @@ public class SubjectService {
      * @param subjectName Name of subject
      */
     public void deleteSubject(final String subjectName) {
-        final Subject subject = this.getSubjectByName(subjectName);
-
-        this.subjectRepository.deleteById(subject.getId());
+        this.subjectRepository.deleteSubjectByName(subjectName);
     }
 
     // Helper Methods

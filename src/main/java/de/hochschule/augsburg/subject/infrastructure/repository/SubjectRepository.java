@@ -13,4 +13,6 @@ public interface SubjectRepository extends JpaRepository<SubjectEntity, String> 
     List<SubjectEntity> findAllBySpecialization(String spezialization);
 
     List<SubjectEntity> findAllByCreditPoints(Byte creditPoints);
+
+    void deleteSubjectByName(String name);
 }
