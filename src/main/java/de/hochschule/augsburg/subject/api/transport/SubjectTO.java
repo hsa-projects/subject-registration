@@ -17,7 +17,7 @@ import java.util.UUID;
 public class SubjectTO {
 
     @NotBlank
-    private UUID id;
+    private String id;
 
     @NotBlank
     private String name;

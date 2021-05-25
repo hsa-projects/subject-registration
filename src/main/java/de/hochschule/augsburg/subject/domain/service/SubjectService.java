@@ -33,7 +33,7 @@ public class SubjectService {
      * @param professor Name of professor
      * @return subjects
      */
-    public List<Subject> getSubjectsbyProfessor(final String professor){
+    public List<Subject> getSubjectsByProfessor(final String professor){
         return this.subjectMapper.map(this.subjectRepository.findAllByProfessor(professor));
     }
 

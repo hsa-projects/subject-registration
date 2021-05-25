@@ -24,8 +24,8 @@ public class SubjectEntity {
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(name = "id", unique = true, nullable = false, updatable = false)
-    @Type(type="BINARY(10)")
-    private UUID id;
+    //@Type(type="BINARY(10)")
+    private String id;
 
     @Column(name = "name", nullable = false)
     private String name;

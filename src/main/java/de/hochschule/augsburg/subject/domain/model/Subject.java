@@ -14,7 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Subject {
 
-    private final UUID id;
+    private final String id;
 
     private final String name;
 

@@ -10,7 +10,7 @@ import java.util.List;
 public interface SubjectRepository extends JpaRepository<SubjectEntity, String> {
     List<SubjectEntity> findAllByProfessor(String professor);
 
-    List<SubjectEntity> findAllBySpecialization(String spezialization);
+    List<SubjectEntity> findAllBySpecialization(String specialization);
 
     List<SubjectEntity> findAllByCreditPoints(Byte creditPoints);
 
