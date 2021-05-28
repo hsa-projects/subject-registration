@@ -1,8 +1,8 @@
 package de.hochschule.augsburg.subject.domain.service;
 
-import de.hochschule.augsburg.registration.domain.model.Registration;
 import de.hochschule.augsburg.subject.domain.mapper.SubjectMapper;
 import de.hochschule.augsburg.subject.domain.model.Subject;
+import de.hochschule.augsburg.subject.domain.model.SubjectUpdate;
 import de.hochschule.augsburg.subject.infrastructure.entity.SubjectEntity;
 import de.hochschule.augsburg.subject.infrastructure.repository.SubjectRepository;
 import lombok.RequiredArgsConstructor;
@@ -57,12 +57,16 @@ public class SubjectService {
 
     /**
      * Create a new subject
-     * @param subject subject that is created
+     *
+     * @param newSubject subject that is created
+     * @param professor Professor that gets assigned to the new subject
+     *
      * @return the new subject
      */
-    public Subject createSubject(final Subject subject) {
-        final SubjectEntity savedSubject = this.subjectRepository.save(this.subjectMapper.map(subject));
-        return this.subjectMapper.map(savedSubject);
+    public Subject createSubject(final Subject newSubject, final String professor) {
+        newSubject.assignProfessor(professor);
+
+        return this.saveSubject(newSubject);
     }
 
     /**
@@ -70,9 +74,38 @@ public class SubjectService {
      *
      * @param subjectName Name of subject
      */
-    public void deleteSubject(final String subjectName) {
+    public void deleteSubject(final String subjectName, final String professor) {
+        final Subject subject = this.getSubjectByName(subjectName);
+
+        //is the subject of the given professor?
+        if (!subject.getProfessor().equals(professor)) {
+            throw new RuntimeException("Subject is not available for delete");
+        }
+
         this.subjectRepository.deleteSubjectByName(subjectName);
     }
+
+    /**
+     * Update an existing subject.
+     *
+     * @param subjectUpdate Update that is applieded
+     * @param professor            Id of the professor
+     * @return the updated subject
+     */
+    public Subject updateSubject(final SubjectUpdate subjectUpdate, final String professor) {
+        final Subject subject = this.getSubject(subjectUpdate.getId());
+
+        // TODO Update of subject should be also available for administrator
+
+        //is the subject of the given professor?
+        if (!subject.getProfessor().equals(professor)) {
+            throw new RuntimeException("Subject is not available for update");
+        }
+
+        subject.update(subjectUpdate);
+        return this.saveSubject(subject);
+    }
+
 
     // Helper Methods
 

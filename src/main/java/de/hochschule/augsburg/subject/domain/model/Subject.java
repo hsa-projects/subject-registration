@@ -1,5 +1,6 @@
 package de.hochschule.augsburg.subject.domain.model;
 
+import de.hochschule.augsburg.registration.domain.model.RegistrationUpdate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,11 +19,22 @@ public class Subject {
 
     private final String name;
 
-    private final String professor;
+    private String professor;
 
-    private final Byte creditPoints;
+    private Integer creditPoints;
 
-    private final String description;
+    private String description;
 
-    private final String specialization;
+    private String specialization;
+
+    public void assignProfessor(final String professor) {
+        this.professor = professor;
+    }
+
+    public void update(final SubjectUpdate update) {
+        this.professor = update.getProfessor();
+        this.creditPoints = update.getCreditPoints();
+        this.description = update.getDescription();
+        this.specialization = update.getSpecialization();
+    }
 }

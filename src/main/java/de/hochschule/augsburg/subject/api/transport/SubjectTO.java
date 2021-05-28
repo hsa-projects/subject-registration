@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Getter
@@ -17,16 +18,20 @@ import java.util.UUID;
 public class SubjectTO {
 
     @NotBlank
+    @NotNull
     private String id;
 
     @NotBlank
+    @NotNull
     private String name;
 
     @NotBlank
+    @NotNull
     private String professor;
 
     @NotBlank
-    private Byte creditPoints;
+    @NotNull
+    private Integer creditPoints;
 
     private String description;
 

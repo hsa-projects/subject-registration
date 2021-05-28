@@ -34,7 +34,7 @@ public class SubjectEntity {
     private String professor;
 
     @Column(name = "cp", nullable = false)
-    private Byte creditPoints;
+    private Integer creditPoints;
 
     @Column(name= "description", nullable = true)
     private String description;
