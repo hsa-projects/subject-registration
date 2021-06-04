@@ -1,15 +1,14 @@
 package de.hochschule.augsburg.subject.infrastructure;
 
+import de.hochschule.augsburg.registration.infrastructure.entity.SubjectSelectionEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Builder
@@ -29,6 +28,4 @@ public class SubjectEntity {
 
     @Column(name = "professor", nullable = false)
     private String professor;
-
-
 }

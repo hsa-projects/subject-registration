@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface RegistrationRepository extends JpaRepository<RegistrationEntity, String> {
 
-    List<RegistrationEntity> findAllByStudent(String student);
+    RegistrationEntity findByStudent(String student);
 
 }
