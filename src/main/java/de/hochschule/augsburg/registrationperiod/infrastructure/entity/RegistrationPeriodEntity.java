@@ -26,10 +26,9 @@ public class RegistrationPeriodEntity {
     @Column(name = "semester", nullable = false)
     private String semester;
 
-    @Column(name = "date", nullable = false)
-    private String date;
+    @Column(name = "start_date", nullable = false)
+    private String startDate;
 
-    @Column(name = "duration", nullable = false)
-    private String duration;
-
+    @Column(name = "end_date", nullable = false)
+    private String endDate;
 }

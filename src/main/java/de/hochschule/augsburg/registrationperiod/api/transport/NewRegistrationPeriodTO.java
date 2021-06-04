@@ -25,5 +25,5 @@ public class NewRegistrationPeriodTO {
 
     @NotNull
     @NotBlank
-    private String duration;
+    private String endDate;
 }

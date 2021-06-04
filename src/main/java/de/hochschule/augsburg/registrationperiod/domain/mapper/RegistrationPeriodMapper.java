@@ -13,5 +13,4 @@ public interface RegistrationPeriodMapper {
     RegistrationPeriod map(RegistrationPeriodEntity registrationPeriod);
 
     List<RegistrationPeriod> map(List<RegistrationPeriodEntity> entityList);
-
 }

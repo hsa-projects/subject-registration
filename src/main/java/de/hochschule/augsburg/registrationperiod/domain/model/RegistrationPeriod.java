@@ -14,10 +14,10 @@ public class RegistrationPeriod {
 
     private String startDate;
 
-    private String duration;
+    private String endDate;
 
     public void update(final RegistrationPeriodUpdate update) {
         this.startDate = update.getStartDate();
-        this.duration = update.getDuration();
+        this.endDate = update.getEndDate();
     }
 }

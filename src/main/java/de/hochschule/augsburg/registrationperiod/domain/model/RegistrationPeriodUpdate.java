@@ -12,5 +12,5 @@ public class RegistrationPeriodUpdate {
 
     private final String startDate;
 
-    private final String duration;
+    private final String endDate;
 }
