@@ -1,4 +1,4 @@
-package de.hochschule.augsburg.registrationperiod.infrastructure.entity;
+package de.hochschule.augsburg.registrationwindow.infrastructure.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,7 +16,7 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "hsa_registration_period")
-public class RegistrationPeriodEntity {
+public class RegistrationWindowEntity {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")

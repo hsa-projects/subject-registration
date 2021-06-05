@@ -1,4 +1,4 @@
-package de.hochschule.augsburg.registrationperiod.domain.model;
+package de.hochschule.augsburg.registrationwindow.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public class RegistrationPeriodUpdate {
+public class RegistrationWindowUpdate {
     private final String id;
 
     private final String startDate;

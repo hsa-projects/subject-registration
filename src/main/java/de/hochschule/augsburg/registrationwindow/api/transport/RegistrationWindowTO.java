@@ -1,4 +1,4 @@
-package de.hochschule.augsburg.registrationperiod.api.transport;
+package de.hochschule.augsburg.registrationwindow.api.transport;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -13,8 +13,12 @@ import javax.validation.constraints.NotNull;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "Information to a new registration period")
-public class NewRegistrationPeriodTO {
+@Schema(description = "Information to a specific registration period")
+public class RegistrationWindowTO {
+    @NotNull
+    @NotBlank
+    private String id;
+
     @NotNull
     @NotBlank
     private String semester;

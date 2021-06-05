@@ -3,13 +3,25 @@ package de.hochschule.augsburg.registration.domain.service;
 import de.hochschule.augsburg.registration.domain.mapper.RegistrationMapper;
 import de.hochschule.augsburg.registration.domain.model.Registration;
 import de.hochschule.augsburg.registration.domain.model.RegistrationUpdate;
+import de.hochschule.augsburg.registration.domain.model.SubjectSelection;
+import de.hochschule.augsburg.registration.domain.process.RegistrationProcessVariables;
 import de.hochschule.augsburg.registration.infrastructure.entity.RegistrationEntity;
 import de.hochschule.augsburg.registration.infrastructure.repository.RegistrationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.camunda.bpm.engine.ManagementService;
 import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.TaskService;
+import org.camunda.bpm.engine.impl.calendar.DateTimeUtil;
+import org.camunda.bpm.engine.variable.VariableMap;
+import org.camunda.bpm.engine.variable.Variables;
+import org.h2.expression.Variable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
+import javax.validation.constraints.Null;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,6 +35,9 @@ public class RegistrationService {
     private final RegistrationRepository registrationRepository;
     private final RegistrationMapper registrationMapper;
     private final RuntimeService runtimeService;
+    private final TaskService taskService;
+    private final ManagementService managementService;
+    private final RegistrationProcessVariables registrationProcessVariables;
 
     /**
      * Get all registrations.
@@ -34,13 +49,13 @@ public class RegistrationService {
     }
 
     /**
-     * Get all registrations by student.
+     * Get registration by student.
      *
      * @param student Id of the student
-     * @return registrations
+     * @return registration
      */
-    public List<Registration> getRegistrationsByStudent(final String student) {
-        return this.registrationMapper.map(this.registrationRepository.findAllByStudent(student));
+    public Registration getRegistrationByStudent(final String student) {
+        return this.registrationMapper.map(this.registrationRepository.findByStudent(student));
     }
 
     /**
@@ -52,14 +67,24 @@ public class RegistrationService {
      */
     public Registration createRegistration(final Registration newRegistration, final String student) {
 
+        VariableMap variables = Variables.createVariables();
+
+        variables.put("anmeldefrist", registrationProcessVariables.getAnmeldefrist());
+        variables.put("student", student);
+        final Registration existRegistration = this.getRegistrationByStudent(student);
+
+
         //TODO student can only start one registration?
-
-
-        //TODO start a process
-//        runtimeService.startProcessInstanceByKey("MeinTollerProzess");
+        if (existRegistration != null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST);
+        }
 
         newRegistration.assignStudent(student);
-        return this.saveRegistration(newRegistration);
+        final Registration savedRegistration = this.saveRegistration(newRegistration);
+
+        this.runtimeService.startProcessInstanceByKey("Process_Register_Subject", savedRegistration.getId(), variables);
+
+        return savedRegistration;
     }
 
     /**
