@@ -13,7 +13,7 @@ import java.util.Date;
 @Service
 @Getter
 public class RegistrationProcessVariables {
-    //Todo Prozess variablen hier sammeln
-    private Date anmeldefrist = DateTimeUtil.parseDate("2021-11-20T10:02:00");
+    private Date registration_window_start = DateTimeUtil.parseDate("2021-11-20T10:02:00");
+    private Date registration_window_end = DateTimeUtil.parseDate("2021-11-20T10:02:00");
 
 }

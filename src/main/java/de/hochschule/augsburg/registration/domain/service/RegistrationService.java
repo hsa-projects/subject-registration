@@ -19,10 +19,12 @@ import org.h2.expression.Variable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.constraints.Null;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Service to handle registrations.
@@ -69,20 +71,17 @@ public class RegistrationService {
 
         VariableMap variables = Variables.createVariables();
 
-        variables.put("anmeldefrist", registrationProcessVariables.getAnmeldefrist());
         variables.put("student", student);
         final Registration existRegistration = this.getRegistrationByStudent(student);
 
-
-        //TODO student can only start one registration?
         if (existRegistration != null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Registration for " + student + " already exists");
         }
 
         newRegistration.assignStudent(student);
         final Registration savedRegistration = this.saveRegistration(newRegistration);
 
-        this.runtimeService.startProcessInstanceByKey("Process_Wahlfach_Anmeldung", savedRegistration.getId(), variables);
+        this.runtimeService.startProcessInstanceByKey("Process_Register_Subject", savedRegistration.getId().toString(), variables);
 
         return savedRegistration;
     }
@@ -107,7 +106,7 @@ public class RegistrationService {
     }
 
 
-    public void deleteRegistration(final String registrationId, final String student) {
+    public void deleteRegistration(final UUID registrationId, final String student) {
         final Registration registration = this.getRegistration(registrationId);
 
         //is the registration of the given student?
@@ -125,7 +124,7 @@ public class RegistrationService {
         return this.registrationMapper.map(savedRegistration);
     }
 
-    private Registration getRegistration(final String registrationId) {
+    private Registration getRegistration(final UUID registrationId) {
         return this.registrationRepository.findById(registrationId)
                 .map(this.registrationMapper::map)
                 .orElseThrow();
