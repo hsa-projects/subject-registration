@@ -5,15 +5,35 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.util.UUID;
+
 @Getter
 @Builder
 @ToString
 @AllArgsConstructor
 public class Subject {
 
-    private final String id;
+    private final UUID id;
 
-    private final String name;
+    private String name;
 
-    private final String professor;
+    private String professor;
+
+    private Float creditPoints;
+
+    private String description;
+
+    private String specialization;
+
+    public void assignProfessor(final String professor) {
+        this.professor = professor;
+    }
+
+    public void update(final SubjectUpdate update) {
+        this.name = update.getName();
+        this.professor = update.getProfessor();
+        this.creditPoints = update.getCreditPoints();
+        this.description = update.getDescription();
+        this.specialization = update.getSpecialization();
+    }
 }

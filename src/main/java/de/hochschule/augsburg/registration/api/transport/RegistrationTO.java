@@ -10,6 +10,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Builder
@@ -20,7 +21,7 @@ public class RegistrationTO {
 
     @NotNull
     @NotBlank
-    private String id;
+    private UUID id;
 
     @NotNull
     @NotBlank

@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.type.UUIDBinaryType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Validated
@@ -45,7 +47,7 @@ public class RegistrationController {
     @Operation(summary = "Create a new registration")
     public ResponseEntity<RegistrationTO> createNewRegistration(@RequestBody @Valid final NewRegistrationTO newRegistrationTO) {
         log.debug("Received request to create a new registration: {}", newRegistrationTO);
-        final Registration registration = this.registrationService.createRegistration(this.registrationApiMapper.map(newRegistrationTO), this.userContext.getLoggedInUser());
+        final Registration registration = this.registrationService.createRegistration(this.registrationApiMapper.map(newRegistrationTO), newRegistrationTO.getStudent());
         return ResponseEntity.ok(this.registrationApiMapper.map(registration));
     }
 
@@ -63,7 +65,7 @@ public class RegistrationController {
     @Transactional
     @DeleteMapping("/{registrationId}")
     @Operation(summary = "Delete an existing registration")
-    public ResponseEntity<Void> deleteProject(@PathVariable("registrationId") final String registrationId) {
+    public ResponseEntity<Void> deleteProject(@PathVariable("registrationId") final UUID registrationId) {
         log.debug("Received request to delete the registration with the id '{}'", registrationId);
         this.registrationService.deleteRegistration(registrationId, this.userContext.getLoggedInUser());
         return ResponseEntity.ok().build();

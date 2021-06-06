@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
 @Getter
 @Builder
@@ -19,7 +20,7 @@ public class NewSubjectSelectionTO {
 
     @NotNull
     @NotBlank
-    private String subject;
+    private UUID subject;
 
     @NotNull
     @Min(1)

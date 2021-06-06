@@ -6,34 +6,28 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "Information to a specific subject")
-public class SubjectTO {
-
+@Schema(description = "Data to update a subject")
+public class SubjectUpdateTO {
     @NotBlank
-    @NotNull
     private UUID id;
-
-    @NotBlank
-    @NotNull
-    private String name;
 
     @NotBlank
     @NotNull
     private String professor;
 
-    @PositiveOrZero
+    @NotBlank
     @NotNull
-    private Float creditPoints;
+    private Integer creditPoints;
 
     private String description;
 
     private String specialization;
-
 }
