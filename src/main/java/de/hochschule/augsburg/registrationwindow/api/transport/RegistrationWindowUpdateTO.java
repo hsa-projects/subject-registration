@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "Data to update a registration period")
+@Schema(description = "Data to update a registration window")
 public class RegistrationWindowUpdateTO {
     @NotNull
     @NotBlank

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * Service to handle registration periods.
+ * Service to handle registration windows.
  */
 @Slf4j
 @Service
@@ -26,30 +26,30 @@ public class RegistrationWindowService {
     private final RuntimeService runtimeService;
 
     /**
-     * Get all registration periods.
+     * Get all registration windows.
      *
-     * @return registration periods
+     * @return registration windows
      */
-    public List<RegistrationWindow> getAllRegistrationPeriods() {
+    public List<RegistrationWindow> getAllRegistrationWindows() {
         return this.registrationWindowMapper.map(this.registrationWindowRepository.findAll());
     }
 
     /**
-     * Create a new Registration Period.
+     * Create a new Registration Window.
      *
-     * @param newRegistrationWindow Registration period that is created
-     * @param professor         Professor that starts the new registration period
-     * @return the new registration
+     * @param newRegistrationWindow Registration window that is created
+     * @param professor         Professor that starts the new registration window
+     * @return the new registration window
      */
-    public RegistrationWindow createRegistrationPeriod(final RegistrationWindow newRegistrationWindow, final String professor) {
+    public RegistrationWindow createRegistrationWindow(final RegistrationWindow newRegistrationWindow, final String professor) {
 
-        //TODO only professor with granted access can create registration period
+        //TODO only professor with granted access can create registration window
 
         VariableMap variables = Variables.createVariables();
 
         //TODO start a process
 //        runtimeService.startProcessInstanceByKey("MeinTollerProzess");
-        final RegistrationWindow savedRegistrationWindow = this.saveRegistrationPeriod(newRegistrationWindow);
+        final RegistrationWindow savedRegistrationWindow = this.saveRegistrationWindow(newRegistrationWindow);
 
         this.runtimeService.startProcessInstanceByKey("Process_Registration_Window", savedRegistrationWindow.getId(), variables);
 
@@ -57,43 +57,43 @@ public class RegistrationWindowService {
     }
 
     /**
-     * Update an existing registration period.
+     * Update an existing registration window.
      *
      * @param registrationWindowUpdate Update that is applieded
      * @param professor            Id of the professor
-     * @return the updated registrationPeriod
+     * @return the updated registrationWindow
      */
-    public RegistrationWindow updateRegistrationPeriod(final RegistrationWindowUpdate registrationWindowUpdate, final String professor) {
-        final RegistrationWindow registrationWindow = this.getRegistrationPeriod(registrationWindowUpdate.getId());
+    public RegistrationWindow updateRegistrationWindow(final RegistrationWindowUpdate registrationWindowUpdate, final String professor) {
+        final RegistrationWindow registrationWindow = this.getRegistrationWindow(registrationWindowUpdate.getId());
 
-        // TODO is the registrationPeriod of the professor with granted access?
+        // TODO is the registrationWindow of the professor with granted access?
 
         registrationWindow.update(registrationWindowUpdate);
-        return this.saveRegistrationPeriod(registrationWindow);
+        return this.saveRegistrationWindow(registrationWindow);
     }
 
     /**
-     * Delete an existing registration period
-     * @param registrationPeriodId
+     * Delete an existing registration window
+     * @param registrationWindowId
      * @param professor
      */
-    public void deleteRegistrationPeriod(final String registrationPeriodId, final String professor) {
-        final RegistrationWindow registrationWindow = this.getRegistrationPeriod(registrationPeriodId);
+    public void deleteRegistrationWindow(final String registrationWindowId, final String professor) {
+        final RegistrationWindow registrationWindow = this.getRegistrationWindow(registrationWindowId);
 
-        // TODO is the registrationPeriod of the professor with granted access?
+        // TODO is the registrationWindow of the professor with granted access?
 
         this.registrationWindowRepository.deleteById(registrationWindow.getId());
     }
 
     // Helper Methods
 
-    private RegistrationWindow saveRegistrationPeriod(final RegistrationWindow registrationWindow) {
-        final RegistrationWindowEntity savedRegistrationPeriod = this.registrationWindowRepository.save(this.registrationWindowMapper.map(registrationWindow));
-        return this.registrationWindowMapper.map(savedRegistrationPeriod);
+    private RegistrationWindow saveRegistrationWindow(final RegistrationWindow registrationWindow) {
+        final RegistrationWindowEntity savedRegistrationWindow = this.registrationWindowRepository.save(this.registrationWindowMapper.map(registrationWindow));
+        return this.registrationWindowMapper.map(savedRegistrationWindow);
     }
 
-    private RegistrationWindow getRegistrationPeriod(final String registrationPeriodId) {
-        return this.registrationWindowRepository.findById(registrationPeriodId)
+    private RegistrationWindow getRegistrationWindow(final String registrationWindowId) {
+        return this.registrationWindowRepository.findById(registrationWindowId)
                 .map(this.registrationWindowMapper::map)
                 .orElseThrow();
     }

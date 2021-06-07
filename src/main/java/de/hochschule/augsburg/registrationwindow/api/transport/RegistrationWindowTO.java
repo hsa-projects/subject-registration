@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "Information to a specific registration period")
+@Schema(description = "Information to a specific registration window")
 public class RegistrationWindowTO {
     @NotNull
     @NotBlank

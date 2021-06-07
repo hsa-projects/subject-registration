@@ -23,8 +23,9 @@ import java.util.List;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "RegistrationPeriod Controller")
-@RequestMapping("/api/registration_period")
+@Tag(name = "RegistrationWindow Controller")
+@RequestMapping("/api/registration_window")
+@CrossOrigin
 public class RegistrationWindowController {
     private final RegistrationWindowService registrationWindowService;
     private final RegistrationWindowApiMapper registrationWindowApiMapper;
@@ -32,39 +33,39 @@ public class RegistrationWindowController {
 
     @GetMapping
     @Transactional(readOnly = true)
-    @Operation(summary = "Get list of all registration periods")
-    public ResponseEntity<List<RegistrationWindowTO>> getAllRegistrationPeriods() {
+    @Operation(summary = "Get list of all registration windows")
+    public ResponseEntity<List<RegistrationWindowTO>> getAllRegistrationWindows() {
         log.debug("Received request to get all registrationPeriods");
-        final List<RegistrationWindow> allRegistrationWindows = this.registrationWindowService.getAllRegistrationPeriods();
+        final List<RegistrationWindow> allRegistrationWindows = this.registrationWindowService.getAllRegistrationWindows();
         return ResponseEntity.ok().body(this.registrationWindowApiMapper.map(allRegistrationWindows));
     }
 
     @Transactional
     @PostMapping
-    @Operation(summary = "Create a new registration period")
-    public ResponseEntity<RegistrationWindowTO> createNewRegistrationPeriod(@RequestBody @Valid final NewRegistrationWindowTO newRegistrationWindowTO) {
+    @Operation(summary = "Create a new registration window")
+    public ResponseEntity<RegistrationWindowTO> createNewRegistrationWindow(@RequestBody @Valid final NewRegistrationWindowTO newRegistrationWindowTO) {
         log.debug("Received request to create a new registration period: {}", newRegistrationWindowTO);
-        final RegistrationWindow registrationWindow = this.registrationWindowService.createRegistrationPeriod(this.registrationWindowApiMapper.map(newRegistrationWindowTO), this.userContext.getLoggedInUser());
+        final RegistrationWindow registrationWindow = this.registrationWindowService.createRegistrationWindow(this.registrationWindowApiMapper.map(newRegistrationWindowTO), this.userContext.getLoggedInUser());
         return ResponseEntity.ok(this.registrationWindowApiMapper.map(registrationWindow));
     }
 
     @Transactional
     @PutMapping()
-    @Operation(summary = "Update an existing registration period")
-    public ResponseEntity<RegistrationWindowTO> updateRegistrationPeriod(
+    @Operation(summary = "Update an existing registration window")
+    public ResponseEntity<RegistrationWindowTO> updateRegistrationWindow(
             @RequestBody @Valid final RegistrationWindowUpdateTO updateTO
     ) {
-        log.debug("Received request to update the registration with the id '{}'", updateTO.getId());
-        final RegistrationWindow registrationWindow = this.registrationWindowService.updateRegistrationPeriod(this.registrationWindowApiMapper.map(updateTO), this.userContext.getLoggedInUser());
+        log.debug("Received request to update the registration window with the id '{}'", updateTO.getId());
+        final RegistrationWindow registrationWindow = this.registrationWindowService.updateRegistrationWindow(this.registrationWindowApiMapper.map(updateTO), this.userContext.getLoggedInUser());
         return ResponseEntity.ok(this.registrationWindowApiMapper.map(registrationWindow));
     }
 
     @Transactional
-    @DeleteMapping("/{registrationPeriodId}")
-    @Operation(summary = "Delete an existing registration period")
-    public ResponseEntity<Void> deleteRegistrationPeriod(@PathVariable("registrationPeriodId") final String registrationPeriodId) {
+    @DeleteMapping("/{registrationWindowId}")
+    @Operation(summary = "Delete an existing registration window")
+    public ResponseEntity<Void> deleteRegistrationWindow(@PathVariable("registrationWindowId") final String registrationPeriodId) {
         log.debug("Received request to delete the registration period with the id '{}'", registrationPeriodId);
-        this.registrationWindowService.deleteRegistrationPeriod(registrationPeriodId, this.userContext.getLoggedInUser());
+        this.registrationWindowService.deleteRegistrationWindow(registrationPeriodId, this.userContext.getLoggedInUser());
         return ResponseEntity.ok().build();
     }
 }

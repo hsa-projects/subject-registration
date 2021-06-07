@@ -15,7 +15,7 @@ import javax.persistence.Id;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "hsa_registration_period")
+@Entity(name = "hsa_registration_window")
 public class RegistrationWindowEntity {
     @Id
     @GeneratedValue(generator = "uuid2")
