@@ -23,6 +23,7 @@ import java.util.UUID;
 
 @Slf4j
 @Validated
+@CrossOrigin
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Registration Controller")

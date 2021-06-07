@@ -21,6 +21,7 @@ import java.util.List;
 
 @Slf4j
 @Validated
+@CrossOrigin
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Subject Controller")
