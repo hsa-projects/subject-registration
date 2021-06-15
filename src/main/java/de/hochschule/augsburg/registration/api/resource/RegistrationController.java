@@ -11,7 +11,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.type.UUIDBinaryType;
+import lombok.val;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -39,6 +39,9 @@ public class RegistrationController {
     @Operation(summary = "Get list of all Registrations")
     public ResponseEntity<List<RegistrationTO>> getAllRegistrations() {
         log.debug("Received request to get all registrations");
+
+        val currentUser = this.userContext.getLoggedInUser();
+
         final List<Registration> allProjects = this.registrationService.getAllRegistrations();
         return ResponseEntity.ok().body(this.registrationApiMapper.map(allProjects));
     }
