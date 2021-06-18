@@ -36,4 +36,10 @@ public class SubjectEntity {
 
     @Column(name = "specialization", nullable = true)
     private String specialization;
+
+    @Column(name = "status", nullable = false)
+    private Boolean status;
+
+    @Column(name = "capacity", nullable = false)
+    private Integer capacity;
 }

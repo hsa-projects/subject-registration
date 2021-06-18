@@ -25,6 +25,10 @@ public class Subject {
 
     private String specialization;
 
+    private Boolean status;
+
+    private Integer capacity;
+
     public void assignProfessor(final String professor) {
         this.professor = professor;
     }
@@ -35,5 +39,7 @@ public class Subject {
         this.creditPoints = update.getCreditPoints();
         this.description = update.getDescription();
         this.specialization = update.getSpecialization();
+        this.status = update.getStatus();
+        this.capacity = update.getCapacity();
     }
 }
