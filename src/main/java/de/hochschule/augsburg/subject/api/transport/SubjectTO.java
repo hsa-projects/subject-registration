@@ -16,7 +16,6 @@ import java.util.UUID;
 @Schema(description = "Information to a specific subject")
 public class SubjectTO {
 
-    @NotBlank
     @NotNull
     private UUID id;
 

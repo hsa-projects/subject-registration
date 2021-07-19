@@ -7,7 +7,9 @@ import de.hochschule.augsburg.subject.infrastructure.entity.SubjectEntity;
 import de.hochschule.augsburg.subject.infrastructure.repository.SubjectRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.UUID;
@@ -111,6 +113,16 @@ public class SubjectService {
         return this.saveSubject(subject);
     }
 
+    /**
+     * validate subject.
+     *
+     * @param subjectId Subject ID to validate
+     */
+    public void validateSubject(final UUID subjectId) {
+        if (this.findSubject(subjectId) == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "subject: " + subjectId + " not exists!" );
+        }
+    }
 
     // Helper Methods
 
@@ -122,6 +134,12 @@ public class SubjectService {
     private Subject getSubject(final UUID subjectId) {
         return this.subjectRepository.findById(subjectId)
                 .map(this.subjectMapper::map)
-                .orElseThrow();
+                .orElse(null);
+    }
+
+    private Subject findSubject(final UUID subjectId) {
+        return this.subjectRepository.findById(subjectId)
+                .map(this.subjectMapper::map)
+                .orElse(null);
     }
 }

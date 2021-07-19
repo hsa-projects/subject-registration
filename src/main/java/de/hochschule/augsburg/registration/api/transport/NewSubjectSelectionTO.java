@@ -19,7 +19,6 @@ import java.util.UUID;
 public class NewSubjectSelectionTO {
 
     @NotNull
-    @NotBlank
     private UUID subject;
 
     @NotNull

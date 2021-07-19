@@ -18,7 +18,6 @@ import java.util.UUID;
 public class RegistrationUpdateTO {
 
     @NotNull
-    @NotBlank
     private UUID id;
 
     @NotNull

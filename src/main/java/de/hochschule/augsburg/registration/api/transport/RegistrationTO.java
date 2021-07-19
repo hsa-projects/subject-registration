@@ -20,7 +20,6 @@ import java.util.UUID;
 public class RegistrationTO {
 
     @NotNull
-    @NotBlank
     private UUID id;
 
     @NotNull
