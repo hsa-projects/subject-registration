@@ -10,12 +10,6 @@ import java.util.UUID;
 @Component
 public interface SubjectRepository extends JpaRepository<SubjectEntity, UUID> {
 
-    List<SubjectEntity> findAllByProfessor(String professor);
-
-    List<SubjectEntity> findAllBySpecialization(String specialization);
-
-    List<SubjectEntity> findAllByCreditPoints(Float creditPoints);
-
     SubjectEntity findByName(String name);
 
     void deleteSubjectByName(String name);

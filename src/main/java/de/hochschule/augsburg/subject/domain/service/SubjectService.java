@@ -31,36 +31,6 @@ public class SubjectService {
         return this.subjectMapper.map(this.subjectRepository.findAll());
     }
 
-    //TODO Check ob das Frontend Filter übernimmt
-    /**
-     * Get all subjects by professor
-     * @param professor Name of professor
-     * @return subjects
-     */
-    public List<Subject> getSubjectsByProfessor(final String professor){
-        return this.subjectMapper.map(this.subjectRepository.findAllByProfessor(professor));
-    }
-
-    //TODO Check ob das Frontend Filter übernimmt
-    /**
-     * Get all subjects by specialization
-     * @param specialization Specialization of subject
-     * @return subjects
-     */
-    public  List<Subject> getSubjectsBySpecialization(final String specialization){
-        return this.subjectMapper.map(this.subjectRepository.findAllBySpecialization(specialization));
-    }
-
-    //TODO Check ob das Frontend Filter übernimmt
-    /**
-     * Get all subjects by credit points
-     * @param creditPoints CreditPoints
-     * @return subjects
-     */
-    public List<Subject> getSubjectsByCreditPoints(final Float creditPoints) {
-        return this.subjectMapper.map(this.subjectRepository.findAllByCreditPoints(creditPoints));
-    }
-
     /**
      * Create a new subject
      *
@@ -78,7 +48,8 @@ public class SubjectService {
     /**
      * Delete subject
      *
-     * @param subjectName Name of subject
+     * @param subjectName Name of the subject
+     * @param professor ID of the Professor
      */
     public void deleteSubject(final String subjectName, final String professor) {
         final Subject subject = this.subjectMapper.map(this.subjectRepository.findByName(subjectName));
@@ -94,19 +65,18 @@ public class SubjectService {
     /**
      * Update an existing subject.
      *
-     * @param subjectUpdate Update that is applieded
-     * @param professor            Id of the professor
+     * @param subjectUpdate Update that is applied
+     * @param professor ID of the professor
+     *
      * @return the updated subject
      */
     public Subject updateSubject(final SubjectUpdate subjectUpdate, final String professor) {
 
         final Subject subject = this.getSubject(subjectUpdate.getId());
 
-        // TODO Update of subject should be also available for administrator
-
         //is the subject of the given professor?
-        if (!subject.getProfessor().equals(professor)) {
-            throw new RuntimeException("Subject is not available for update");
+        if (!subject.getProfessor().equals(professor) && professor.equals("admin")) {
+            throw new RuntimeException("Update not allowed for " + professor);
         }
 
         subject.update(subjectUpdate);

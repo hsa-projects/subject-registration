@@ -21,4 +21,8 @@ public class SubjectUpdate {
     private final String description;
 
     private final String specialization;
+
+    private final Boolean status;
+
+    private final Integer capacity;
 }
