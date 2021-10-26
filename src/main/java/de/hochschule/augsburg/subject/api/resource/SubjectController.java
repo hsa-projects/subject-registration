@@ -36,35 +36,11 @@ public class SubjectController {
     @Transactional(readOnly = true)
     @Operation(summary = "Get list of all Subjects")
     public ResponseEntity<List<SubjectTO>> getAllSubjects() {
+
+        userContext.getLoggedInUser();
+
         log.debug("Received request to get all subjects");
         final List<Subject> subjects = this.subjectService.getAllSubjects();
-        return ResponseEntity.ok(this.subjectApiMapper.map(subjects));
-    }
-
-    @GetMapping("/{professor}")
-    @Transactional(readOnly = true)
-    @Operation(summary = "Get list of subjects by given professor")
-    public ResponseEntity<List<SubjectTO>> getSubjectsByProfessor(String professor) {
-        log.debug("Received request to get subjects by professor");
-        final List<Subject> subjects = this.subjectService.getSubjectsByProfessor(professor);
-        return ResponseEntity.ok(this.subjectApiMapper.map(subjects));
-    }
-
-    @GetMapping("/{creditPoints}")
-    @Transactional(readOnly = true)
-    @Operation(summary = "Get list of subjects by given credit points")
-    public ResponseEntity<List<SubjectTO>> getSubjectsByCreditPoints(Float creditPoints) {
-        log.debug("Received request to get subjects by given credit points");
-        final List<Subject> subjects = this.subjectService.getSubjectsByCreditPoints(creditPoints);
-        return ResponseEntity.ok(this.subjectApiMapper.map(subjects));
-    }
-
-    @GetMapping("/{specialization}")
-    @Transactional(readOnly = true)
-    @Operation(summary = "Get list of subjects by given specialization")
-    public ResponseEntity<List<SubjectTO>> getSubjectsBySpecialization(String specialization) {
-        log.debug("Received request to get subjects by specialization");
-        final List<Subject> subjects = this.subjectService.getSubjectsBySpecialization(specialization);
         return ResponseEntity.ok(this.subjectApiMapper.map(subjects));
     }
 

@@ -16,14 +16,13 @@ import java.util.UUID;
 @AllArgsConstructor
 @Schema(description = "Data to update a subject")
 public class SubjectUpdateTO {
-    @NotBlank
+    @NotNull
     private UUID id;
 
     @NotBlank
     @NotNull
     private String professor;
 
-    @NotBlank
     @NotNull
     private Integer creditPoints;
 

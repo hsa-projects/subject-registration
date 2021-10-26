@@ -11,7 +11,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.type.UUIDBinaryType;
+import lombok.val;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -39,8 +39,17 @@ public class RegistrationController {
     @Operation(summary = "Get list of all Registrations")
     public ResponseEntity<List<RegistrationTO>> getAllRegistrations() {
         log.debug("Received request to get all registrations");
-        final List<Registration> allProjects = this.registrationService.getAllRegistrations();
+        final List<Registration> allProjects = this.registrationService.getAllRegistrations(userContext.getLoggedInUser());
         return ResponseEntity.ok().body(this.registrationApiMapper.map(allProjects));
+    }
+
+    @GetMapping("/{uid}")
+    @Transactional(readOnly = true)
+    @Operation(summary = "Get registration by student")
+    public ResponseEntity<RegistrationTO> getRegistration(@PathVariable String uid ) {
+        log.debug("Received request to get all registrations");
+        final Registration registration = this.registrationService.getRegistrationByStudent(uid);
+        return ResponseEntity.ok().body(this.registrationApiMapper.map(registration));
     }
 
     @Transactional
@@ -55,7 +64,7 @@ public class RegistrationController {
     @Transactional
     @PutMapping()
     @Operation(summary = "Update an existing registration")
-    public ResponseEntity<RegistrationTO> updateProject(
+    public ResponseEntity<RegistrationTO> updateRegistration(
             @RequestBody @Valid final RegistrationUpdateTO updateTO
     ) {
         log.debug("Received request to update the registration with the id '{}'", updateTO.getId());
@@ -66,7 +75,7 @@ public class RegistrationController {
     @Transactional
     @DeleteMapping("/{registrationId}")
     @Operation(summary = "Delete an existing registration")
-    public ResponseEntity<Void> deleteProject(@PathVariable("registrationId") final UUID registrationId) {
+    public ResponseEntity<Void> deleteRegistration(@PathVariable("registrationId") final UUID registrationId) {
         log.debug("Received request to delete the registration with the id '{}'", registrationId);
         this.registrationService.deleteRegistration(registrationId, this.userContext.getLoggedInUser());
         return ResponseEntity.ok().build();

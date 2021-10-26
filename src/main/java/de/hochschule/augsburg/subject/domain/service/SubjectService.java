@@ -7,7 +7,9 @@ import de.hochschule.augsburg.subject.infrastructure.entity.SubjectEntity;
 import de.hochschule.augsburg.subject.infrastructure.repository.SubjectRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.UUID;
@@ -29,36 +31,6 @@ public class SubjectService {
         return this.subjectMapper.map(this.subjectRepository.findAll());
     }
 
-    //TODO Check ob das Frontend Filter übernimmt
-    /**
-     * Get all subjects by professor
-     * @param professor Name of professor
-     * @return subjects
-     */
-    public List<Subject> getSubjectsByProfessor(final String professor){
-        return this.subjectMapper.map(this.subjectRepository.findAllByProfessor(professor));
-    }
-
-    //TODO Check ob das Frontend Filter übernimmt
-    /**
-     * Get all subjects by specialization
-     * @param specialization Specialization of subject
-     * @return subjects
-     */
-    public  List<Subject> getSubjectsBySpecialization(final String specialization){
-        return this.subjectMapper.map(this.subjectRepository.findAllBySpecialization(specialization));
-    }
-
-    //TODO Check ob das Frontend Filter übernimmt
-    /**
-     * Get all subjects by credit points
-     * @param creditPoints CreditPoints
-     * @return subjects
-     */
-    public List<Subject> getSubjectsByCreditPoints(final Float creditPoints) {
-        return this.subjectMapper.map(this.subjectRepository.findAllByCreditPoints(creditPoints));
-    }
-
     /**
      * Create a new subject
      *
@@ -76,7 +48,8 @@ public class SubjectService {
     /**
      * Delete subject
      *
-     * @param subjectName Name of subject
+     * @param subjectName Name of the subject
+     * @param professor ID of the Professor
      */
     public void deleteSubject(final String subjectName, final String professor) {
         final Subject subject = this.subjectMapper.map(this.subjectRepository.findByName(subjectName));
@@ -92,25 +65,34 @@ public class SubjectService {
     /**
      * Update an existing subject.
      *
-     * @param subjectUpdate Update that is applieded
-     * @param professor            Id of the professor
+     * @param subjectUpdate Update that is applied
+     * @param professor ID of the professor
+     *
      * @return the updated subject
      */
     public Subject updateSubject(final SubjectUpdate subjectUpdate, final String professor) {
 
         final Subject subject = this.getSubject(subjectUpdate.getId());
 
-        // TODO Update of subject should be also available for administrator
-
         //is the subject of the given professor?
-        if (!subject.getProfessor().equals(professor)) {
-            throw new RuntimeException("Subject is not available for update");
+        if (!subject.getProfessor().equals(professor) && professor.equals("admin")) {
+            throw new RuntimeException("Update not allowed for " + professor);
         }
 
         subject.update(subjectUpdate);
         return this.saveSubject(subject);
     }
 
+    /**
+     * validate subject.
+     *
+     * @param subjectId Subject ID to validate
+     */
+    public void validateSubject(final UUID subjectId) {
+        if (this.findSubject(subjectId) == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "subject: " + subjectId + " not exists!" );
+        }
+    }
 
     // Helper Methods
 
@@ -122,6 +104,12 @@ public class SubjectService {
     private Subject getSubject(final UUID subjectId) {
         return this.subjectRepository.findById(subjectId)
                 .map(this.subjectMapper::map)
-                .orElseThrow();
+                .orElse(null);
+    }
+
+    private Subject findSubject(final UUID subjectId) {
+        return this.subjectRepository.findById(subjectId)
+                .map(this.subjectMapper::map)
+                .orElse(null);
     }
 }
