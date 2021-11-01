@@ -32,7 +32,7 @@ services:
       #JDBC_PARAMS: "connectTimeout=30000"
 
     volumes:
-    - ./conf:/tmp/keycloak-conf
+      - ./conf:/opt/jboss/keycloak/imports
     ports:
       - 8080:8080
     depends_on:
