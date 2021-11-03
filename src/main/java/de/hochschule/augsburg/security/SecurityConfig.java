@@ -10,6 +10,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+
+    private final HSAJwtAuthenticationConverter hsaJwtAuthenticationConverter;
+
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         // Require authentication for all requests
@@ -29,7 +32,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .oauth2ResourceServer()
-                .jwt();
+                .jwt()
+                .jwtAuthenticationConverter(this.hsaJwtAuthenticationConverter);
 
         http.headers().frameOptions().sameOrigin();
         http.csrf().disable();
