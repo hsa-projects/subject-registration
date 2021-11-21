@@ -1,6 +1,7 @@
 package de.hochschule.augsburg.security;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -8,12 +9,14 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         // Require authentication for all requests
         http.authorizeRequests()
+               // .antMatchers("/api/registration_window").hasRole("reg_window_admin")
                 .antMatchers(
                         "/camunda/**",
                         "/camunda-welcome/**",

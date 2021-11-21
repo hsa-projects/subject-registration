@@ -1,5 +1,6 @@
 package de.hochschule.augsburg.registrationWindow.api.resource;
 
+import de.hochschule.augsburg.emailService.EmailService;
 import de.hochschule.augsburg.registrationWindow.api.mapper.RegistrationWindowApiMapper;
 import de.hochschule.augsburg.registrationWindow.api.transport.NewRegistrationWindowTO;
 import de.hochschule.augsburg.registrationWindow.api.transport.RegistrationWindowTO;
@@ -11,12 +12,16 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -26,10 +31,13 @@ import java.util.List;
 @Tag(name = "RegistrationWindow Controller")
 @RequestMapping("/api/registration_window")
 @CrossOrigin
+//@Secured({"admin"})
 public class RegistrationWindowController {
     private final RegistrationWindowService registrationWindowService;
     private final RegistrationWindowApiMapper registrationWindowApiMapper;
     private final UserContext userContext;
+    @Autowired
+    private EmailService emailService;
 
     @GetMapping
     @Transactional(readOnly = true)
@@ -46,6 +54,13 @@ public class RegistrationWindowController {
     public ResponseEntity<RegistrationWindowTO> createNewRegistrationWindow(@RequestBody @Valid final NewRegistrationWindowTO newRegistrationWindowTO) {
         log.debug("Received request to create a new registration period: {}", newRegistrationWindowTO);
         final RegistrationWindow registrationWindow = this.registrationWindowService.createRegistrationWindow(this.registrationWindowApiMapper.map(newRegistrationWindowTO), this.userContext.getLoggedInUser());
+
+        System.out.println("Sending Email...");
+
+        emailService.sendMailRegistrationStart(registrationWindow, "Irina.Meshcheryakova@HS-Augsburg.DE", "https://www.hs-augsburg.de/");
+
+        System.out.println("Done");
+
         return ResponseEntity.ok(this.registrationWindowApiMapper.map(registrationWindow));
     }
 

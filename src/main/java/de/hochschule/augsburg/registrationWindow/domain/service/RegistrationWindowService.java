@@ -10,7 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.variable.VariableMap;
 import org.camunda.bpm.engine.variable.Variables;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -20,6 +23,7 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+//@Secured("REG_WINDOW_ADMIN")
 public class RegistrationWindowService {
     private final RegistrationWindowRepository registrationWindowRepository;
     private final RegistrationWindowMapper registrationWindowMapper;
@@ -47,8 +51,6 @@ public class RegistrationWindowService {
 
         VariableMap variables = Variables.createVariables();
 
-        //TODO start a process
-//        runtimeService.startProcessInstanceByKey("MeinTollerProzess");
         final RegistrationWindow savedRegistrationWindow = this.saveRegistrationWindow(newRegistrationWindow);
 
         this.runtimeService.startProcessInstanceByKey("Process_Registration_Window", savedRegistrationWindow.getId(), variables);
@@ -79,8 +81,6 @@ public class RegistrationWindowService {
      */
     public void deleteRegistrationWindow(final String registrationWindowId, final String professor) {
         final RegistrationWindow registrationWindow = this.getRegistrationWindow(registrationWindowId);
-
-        // TODO is the registrationWindow of the professor with granted access?
 
         this.registrationWindowRepository.deleteById(registrationWindow.getId());
     }
