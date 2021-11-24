@@ -31,6 +31,13 @@ public class SubjectTO {
     @NotNull
     private Float creditPoints;
 
+    @PositiveOrZero
+    @NotNull
+    private Integer capacity;
+
+    @NotNull
+    private Boolean status;
+
     private String description;
 
     private String specialization;

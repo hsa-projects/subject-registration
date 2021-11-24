@@ -25,6 +25,10 @@ public class Subject {
 
     private String specialization;
 
+    private final Boolean status;
+
+    private final Integer capacity;
+
     public void assignProfessor(final String professor) {
         this.professor = professor;
     }

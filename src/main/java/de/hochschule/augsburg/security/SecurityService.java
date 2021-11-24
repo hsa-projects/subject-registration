@@ -18,7 +18,7 @@ import static java.util.Arrays.asList;
 @Service
 public class SecurityService {
 
-    private final boolean ldapActive = false;
+    private final boolean ldapActive = true;
 
     public String getLoggedInUser() {
         if (ldapActive) {

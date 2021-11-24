@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.UUID;
 
 @Getter
@@ -25,6 +26,13 @@ public class SubjectUpdateTO {
 
     @NotNull
     private Integer creditPoints;
+
+    @PositiveOrZero
+    @NotNull
+    private Integer capacity;
+
+    @NotNull
+    private Boolean status;
 
     private String description;
 

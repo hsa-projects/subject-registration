@@ -5,10 +5,14 @@ networks:
   #   name: traefik_net
   keycloak_net:
     name: keycloak_net
+  wpf_net:
+    name: wpf_net
 
 ## Persistent keycloak database
 volumes:
   keycloak_db_vol0:
+    driver: local
+  wpf_db_vol0:
     driver: local
 
 services:
@@ -24,7 +28,7 @@ services:
   keycloak-db:
     image: mysql:5.7
     container_name: keycloak-db
-    env_file: ./mysql.env
+    env_file: ./keycloak-db.env
     volumes:
       - keycloak_db_vol0:/var/lib/mysql
     networks:
@@ -75,3 +79,25 @@ services:
       # - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
     depends_on:
       - keycloak-db
+
+  ##############################################
+  ##############################################
+  ##
+  ## WPF-DB
+  ## MySQL database to persist the IDP data
+  ##
+  ##############################################
+  ##############################################
+
+  wpf-db:
+    image: mysql:5.7
+    container_name: wpf-db
+    env_file: ./wpf-db.env
+    ports:
+      - "3307:3306"
+    volumes:
+      - wpf_db_vol0:/var/lib/mysql
+    #networks:
+    #  - wpf_net
+    # labels:
+      #   - "traefik.enable=false"

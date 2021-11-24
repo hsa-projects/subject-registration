@@ -135,6 +135,11 @@ public class RegistrationService {
         // Todo end/delete process
     }
 
+
+    public void deleteAllRegistrations() {
+        this.registrationRepository.deleteAll();
+    }
+
     // Helper Methods
 
     private Registration saveRegistration(final Registration registration) {

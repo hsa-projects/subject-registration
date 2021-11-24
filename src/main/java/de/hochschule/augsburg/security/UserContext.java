@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserContext {
 
-    private final boolean ldapActive = false;
+    private final boolean ldapActive = true;
 
     public String getLoggedInUser() {
         if (ldapActive) {
