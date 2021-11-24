@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +34,7 @@ public class SubjectController {
     private final UserContext userContext;
 
     @GetMapping
+    @PreAuthorize("@securityService.admin or @securityService.professor or @securityService.student")
     @Transactional(readOnly = true)
     @Operation(summary = "Get list of all Subjects")
     public ResponseEntity<List<SubjectTO>> getAllSubjects() {
@@ -46,6 +48,7 @@ public class SubjectController {
 
     @Transactional
     @PutMapping()
+    @PreAuthorize("@securityService.admin or @securityService.professor")
     @Operation(summary = "Update an existing subject")
     public ResponseEntity<SubjectTO> updateSubject(
             @RequestBody @Valid final SubjectUpdateTO updateTO
@@ -56,6 +59,7 @@ public class SubjectController {
     }
 
     @PostMapping
+    @PreAuthorize("@securityService.admin or @securityService.professor")
     @Transactional
     @Operation(summary = "Create a new subject")
     public ResponseEntity<SubjectTO> createSubject(@RequestBody @Valid final NewSubjectTO newSubjectTO) {
@@ -64,6 +68,7 @@ public class SubjectController {
     }
 
     @Transactional
+    @PreAuthorize("@securityService.admin or @securityService.professor")
     @DeleteMapping("/{subjectName}")
     @Operation(summary = "Delete an existing subject")
     public ResponseEntity<Void> deleteSubject(@PathVariable("subjectName") final String subjectName) {

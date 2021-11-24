@@ -1,39 +1,77 @@
-version: "3"
+version: "3.7"
 
-# Startup with: $sudo docker-compose up
+networks:
+  # traefik_net:
+  #   name: traefik_net
+  keycloak_net:
+    name: keycloak_net
 
+## Persistent keycloak database
 volumes:
-  mysql_data:
+  keycloak_db_vol0:
     driver: local
 
 services:
-  mysql:
+  ##############################################
+  ##############################################
+  ##
+  ## KEYCLOAK-DB
+  ## MySQL database to persist the IDP data
+  ##
+  ##############################################
+  ##############################################
+
+  keycloak-db:
     image: mysql:5.7
+    container_name: keycloak-db
+    env_file: ./mysql.env
     volumes:
-      - mysql_data:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: keycloak
-      MYSQL_USER: keycloak
-      MYSQL_PASSWORD: password
+      - keycloak_db_vol0:/var/lib/mysql
+    networks:
+      - keycloak_net
+    # labels:
+    #   - "traefik.enable=false"
+
+  #########################################################
+  #########################################################
+  ##
+  ## KEYCLOAK
+  ## Identity provider
+  ## Latest Official Image
+  ##
+  #########################################################
+  #########################################################
+
   keycloak:
     image: quay.io/keycloak/keycloak:latest
-    environment:
-      KEYCLOAK_IMPORT: /opt/jboss/keycloak/imports/hsa-realm.json -Dkeycloak.profile.feature.upload_scripts=enabled
-      DB_VENDOR: MYSQL
-      DB_ADDR: mysql
-      DB_DATABASE: keycloak
-      DB_USER: keycloak
-      DB_PASSWORD: password
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: Pa55w0rd
-
-      # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the MySQL JDBC driver documentation in order to use it.
-      #JDBC_PARAMS: "connectTimeout=30000"
-
+    container_name: keycloak
+    hostname: keycloak
+    domainname: docker.localhost
+    env_file: ./keycloak.env
     volumes:
-      - ./conf:/opt/jboss/keycloak/imports
+      # Realm configuration file for import
+      - "./export/hsa-realm.json:/opt/jboss/keycloak/imports/hsa-realm.json:ro"
+    networks:
+      - keycloak_net
+      # - traefik_net
+    # For usage without traefik
     ports:
+      # HTTP port
       - 8080:8080
+      # HTTPS port
+      - 8443:8443
+    # labels:
+      # Enable this container to be mapped by traefik
+      # For more information, see: https://docs.traefik.io/providers/docker/#exposedbydefault
+      # - "traefik.enable=true"
+      # - "traefik.docker.network=traefik_net"
+      # URL to reach this container
+      # - "traefik.http.routers.keycloak.rule=Host(`docker.localhost`)"
+      # Activation of TLS
+      # Access via HTTPS only
+      # - "traefik.http.routers.keycloak.entrypoints=websecure"
+      # - "traefik.http.routers.keycloak.tls=true"
+      # If port is different than 80, use the following service:
+      # - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
     depends_on:
-      - mysql
+      - keycloak-db

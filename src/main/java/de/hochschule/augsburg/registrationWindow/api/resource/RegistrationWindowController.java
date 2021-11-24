@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,7 @@ public class RegistrationWindowController {
     private final UserContext userContext;
 
     @GetMapping
+    @PreAuthorize("@securityService.admin or @securityService.window")
     @Transactional(readOnly = true)
     @Operation(summary = "Get list of all registration windows")
     public ResponseEntity<List<RegistrationWindowTO>> getAllRegistrationWindows() {
@@ -41,6 +43,7 @@ public class RegistrationWindowController {
     }
 
     @Transactional
+    @PreAuthorize("@securityService.admin or @securityService.window")
     @PostMapping
     @Operation(summary = "Create a new registration window")
     public ResponseEntity<RegistrationWindowTO> createNewRegistrationWindow(@RequestBody @Valid final NewRegistrationWindowTO newRegistrationWindowTO) {
@@ -50,6 +53,7 @@ public class RegistrationWindowController {
     }
 
     @Transactional
+    @PreAuthorize("@securityService.admin or @securityService.window")
     @PutMapping()
     @Operation(summary = "Update an existing registration window")
     public ResponseEntity<RegistrationWindowTO> updateRegistrationWindow(
@@ -61,6 +65,7 @@ public class RegistrationWindowController {
     }
 
     @Transactional
+    @PreAuthorize("@securityService.admin or @securityService.window")
     @DeleteMapping("/{registrationWindowId}")
     @Operation(summary = "Delete an existing registration window")
     public ResponseEntity<Void> deleteRegistrationWindow(@PathVariable("registrationWindowId") final String registrationPeriodId) {

@@ -22,7 +22,9 @@ public class HSAJwtAuthenticationConverter implements Converter<Jwt, AbstractAut
 
         final String username = jwt.getClaim("preferred_username");
 
-        final List<String> roles = List.of("Test", "Test2");
+        final List<String> rawRoles = jwt.getClaim("roles");
+        final List<String> roles = rawRoles.stream().map(role-> "ROLE_" + role).collect(Collectors.toList());
+
         //WICHTIG: ROLE_ muss vorhanden sein
         final List<SimpleGrantedAuthority> authorities = roles.stream()
                 .map(SimpleGrantedAuthority::new)

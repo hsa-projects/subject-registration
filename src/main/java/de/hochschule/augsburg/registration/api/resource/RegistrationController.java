@@ -6,6 +6,7 @@ import de.hochschule.augsburg.registration.api.transport.RegistrationTO;
 import de.hochschule.augsburg.registration.api.transport.RegistrationUpdateTO;
 import de.hochschule.augsburg.registration.domain.model.Registration;
 import de.hochschule.augsburg.registration.domain.service.RegistrationService;
+import de.hochschule.augsburg.security.SecurityService;
 import de.hochschule.augsburg.security.UserContext;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -13,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +38,7 @@ public class RegistrationController {
     private final UserContext userContext;
 
     @GetMapping
+    @PreAuthorize("@securityService.admin")
     @Transactional(readOnly = true)
     @Operation(summary = "Get list of all Registrations")
     public ResponseEntity<List<RegistrationTO>> getAllRegistrations() {
@@ -44,6 +48,7 @@ public class RegistrationController {
     }
 
     @GetMapping("/{uid}")
+    @PreAuthorize("@securityService.admin or @securityService.student")
     @Transactional(readOnly = true)
     @Operation(summary = "Get registration by student")
     public ResponseEntity<RegistrationTO> getRegistration(@PathVariable String uid ) {
@@ -53,6 +58,7 @@ public class RegistrationController {
     }
 
     @Transactional
+    @PreAuthorize("@securityService.admin or @securityService.student")
     @PostMapping
     @Operation(summary = "Create a new registration")
     public ResponseEntity<RegistrationTO> createNewRegistration(@RequestBody @Valid final NewRegistrationTO newRegistrationTO) {
@@ -62,6 +68,7 @@ public class RegistrationController {
     }
 
     @Transactional
+    @PreAuthorize("@securityService.admin or @securityService.student")
     @PutMapping()
     @Operation(summary = "Update an existing registration")
     public ResponseEntity<RegistrationTO> updateRegistration(
@@ -73,6 +80,7 @@ public class RegistrationController {
     }
 
     @Transactional
+    @PreAuthorize("@securityService.admin or @securityService.student")
     @DeleteMapping("/{registrationId}")
     @Operation(summary = "Delete an existing registration")
     public ResponseEntity<Void> deleteRegistration(@PathVariable("registrationId") final UUID registrationId) {
