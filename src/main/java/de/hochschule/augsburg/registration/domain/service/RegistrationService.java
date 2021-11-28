@@ -87,7 +87,7 @@ public class RegistrationService {
 
         //collect all UUIDs from Subject Selection and validate Subject
         newRegistration.getSubjectSelection().forEach(subjectSelection -> {
-            this.subjectService.validateSubject(subjectSelection.getSubject());
+            this.subjectService.validateSubject(subjectSelection.getSubject().getId());
         });
 
 

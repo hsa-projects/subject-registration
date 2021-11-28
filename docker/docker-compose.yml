@@ -97,6 +97,7 @@ services:
       - "3307:3306"
     volumes:
       - wpf_db_vol0:/var/lib/mysql
+      - "./init_wpf.sql:/docker-entrypoint-initdb.d/init.sql"
     #networks:
     #  - wpf_net
     # labels:
