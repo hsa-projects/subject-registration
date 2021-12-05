@@ -94,7 +94,7 @@ services:
     container_name: wpf-db
     env_file: ./wpf-db.env
     ports:
-      - "3307:3307"
+      - "3307:3306"
     volumes:
       - wpf_db_vol0:/var/lib/mysql
       - "./init_wpf.sql:/docker-entrypoint-initdb.d/init.sql"
@@ -103,9 +103,8 @@ services:
     # labels:
       #   - "traefik.enable=false"
 
-
   wpf-backend:
-    image: dominikhrn/subject-registration:sha-2bb0287
+    image: dominikhrn/subject-registration:feat-authconverter
     container_name: wpf-backend
     ports:
       - "9090:9090"
