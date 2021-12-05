@@ -49,8 +49,6 @@ services:
   keycloak:
     image: quay.io/keycloak/keycloak:latest
     container_name: keycloak
-    hostname: keycloak
-    domainname: docker.localhost
     env_file: ./keycloak.env
     volumes:
       # Realm configuration file for import
