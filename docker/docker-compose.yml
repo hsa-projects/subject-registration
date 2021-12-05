@@ -55,6 +55,7 @@ services:
       - "./export/hsa-realm.json:/opt/jboss/keycloak/imports/hsa-realm.json:ro"
     networks:
       - keycloak_net
+      - wpf_net
       # - traefik_net
     # For usage without traefik
     ports:
@@ -96,8 +97,8 @@ services:
     volumes:
       - wpf_db_vol0:/var/lib/mysql
       - "./init_wpf.sql:/docker-entrypoint-initdb.d/init.sql"
-    #networks:
-    #  - wpf_net
+    networks:
+      - wpf_net
     # labels:
       #   - "traefik.enable=false"
 
@@ -109,3 +110,5 @@ services:
     depends_on:
       - wpf-db
       - keycloak
+    networks:
+      - wpf_net
