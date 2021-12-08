@@ -49,18 +49,18 @@ public class SubjectService {
     /**
      * Delete subject
      *
-     * @param subjectName Name of the subject
+     * @param subjectId Name of the subject
      * @param professor ID of the Professor
      */
-    public void deleteSubject(final String subjectName, final String professor) {
-        final Subject subject = this.subjectMapper.map(this.subjectRepository.findByName(subjectName));
+    public void deleteSubject(final UUID subjectId, final String professor) {
+        final Subject subject = this.getSubject(subjectId);
 
         //is the subject of the given professor?
         if (!subject.getProfessor().equals(professor)) {
             throw new RuntimeException("Subject is not available for delete");
         }
 
-        this.subjectRepository.deleteSubjectByName(subjectName);
+        this.subjectRepository.deleteSubjectById(subjectId);
     }
 
     /**
@@ -76,7 +76,7 @@ public class SubjectService {
         final Subject subject = this.getSubject(subjectUpdate.getId());
 
         //is the subject of the given professor?
-        if (!subject.getProfessor().equals(professor) && professor.equals("admin")) {
+        if (!subject.getProfessor().equals(professor) || professor.equals("admin")) {
             throw new RuntimeException("Update not allowed for " + professor);
         }
 

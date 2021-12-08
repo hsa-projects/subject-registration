@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Validated
@@ -69,11 +70,11 @@ public class SubjectController {
 
     @Transactional
     @PreAuthorize("@securityService.admin or @securityService.professor")
-    @DeleteMapping("/{subjectName}")
+    @DeleteMapping("/{subjectId}")
     @Operation(summary = "Delete an existing subject")
-    public ResponseEntity<Void> deleteSubject(@PathVariable("subjectName") final String subjectName) {
-        log.debug("Received request to delete the subject with the id '{}'", subjectName);
-        this.subjectService.deleteSubject(subjectName, this.userContext.getLoggedInUser());
+    public ResponseEntity<Void> deleteSubject(@PathVariable("subjectId") final String subjectId) {
+        log.debug("Received request to delete the subject with the id '{}'", subjectId);
+        this.subjectService.deleteSubject(UUID.fromString(subjectId), this.userContext.getLoggedInUser());
         return ResponseEntity.ok().build();
     }
 }

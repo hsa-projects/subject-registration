@@ -5,6 +5,7 @@ import de.hochschule.augsburg.subject.infrastructure.entity.SubjectEntity;
 import org.mapstruct.Mapper;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 @Mapper

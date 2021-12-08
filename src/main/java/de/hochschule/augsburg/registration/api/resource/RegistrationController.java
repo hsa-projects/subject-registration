@@ -57,7 +57,8 @@ public class RegistrationController {
     }
 
     @Transactional
-    @PreAuthorize("(@securityService.admin or @securityService.student) and @registrationWindowService.active")
+    // PreAuthorize("(@securityService.admin or @securityService.student) and @registrationWindowService.active")
+    @PreAuthorize("@securityService.admin or @securityService.student")
     @PostMapping
     @Operation(summary = "Create a new registration")
     public ResponseEntity<RegistrationTO> createNewRegistration(@RequestBody @Valid final NewRegistrationTO newRegistrationTO) {

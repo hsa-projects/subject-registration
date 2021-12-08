@@ -15,4 +15,7 @@ public interface SubjectRepository extends JpaRepository<SubjectEntity, UUID> {
 
     // delete subject by name
     void deleteSubjectByName(String name);
+
+    // delete subject by name
+    void deleteSubjectById(UUID Id);
 }

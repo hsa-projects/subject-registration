@@ -20,10 +20,7 @@ import java.util.UUID;
 public class NewSubjectSelectionTO {
 
     @NotNull
-    private RegistrationTO registration;
-
-    @NotNull
-    private SubjectTO subject;
+    private UUID subject;
 
     @NotNull
     @Min(1)

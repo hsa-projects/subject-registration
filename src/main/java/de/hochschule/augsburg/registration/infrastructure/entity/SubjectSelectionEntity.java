@@ -23,14 +23,8 @@ public class SubjectSelectionEntity {
     @Column(name = "id", unique = true, nullable = false, updatable = false, columnDefinition = "BINARY(16)")
     private UUID id;
 
-
-    @ManyToOne
-    @JoinColumn(name = "registration_id")
-    private RegistrationEntity registration;
-
-    @ManyToOne
-    @JoinColumn(name = "subject_id")
-    private SubjectEntity subject;
+    @Column(name="subject_id", nullable = false)
+    private UUID subject;
 
     //Registration ID
 

@@ -17,9 +17,7 @@ public class SubjectSelection {
 
     private final UUID id;
 
-    private final Registration registration;
-
-    private final Subject subject;
+    private final UUID subject;
 
     private final Integer points;
 

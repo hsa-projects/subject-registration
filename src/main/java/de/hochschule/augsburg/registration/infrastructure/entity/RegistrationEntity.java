@@ -30,7 +30,8 @@ public class RegistrationEntity {
     @Column(name = "semester", columnDefinition = "tinyint default 1")
     private int semester;
 
-    @OneToMany(mappedBy = "registration",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "registration_id")
     private List<SubjectSelectionEntity> subjectSelection;
 
     //@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
