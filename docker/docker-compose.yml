@@ -75,7 +75,7 @@ services:
       # Access via HTTPS only
       # - "traefik.http.routers.keycloak.entrypoints=websecure"
       # - "traefik.http.routers.keycloak.tls=true"
-      # If port is different than 80, use the following service:
+      # If port is different then 80, use the following service:
       # - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
     depends_on:
       - keycloak-db
