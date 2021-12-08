@@ -1,5 +1,6 @@
 package de.hochschule.augsburg.registration.api.transport;
 
+import de.hochschule.augsburg.subject.api.transport.SubjectTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +23,10 @@ public class SubjectSelectionTO {
     private UUID id;
 
     @NotNull
-    private UUID subject;
+    private RegistrationTO registration;
+
+    @NotNull
+    private SubjectTO subject;
 
     @NotNull
     @Min(1)

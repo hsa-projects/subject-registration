@@ -9,5 +9,4 @@ import java.util.UUID;
 public interface RegistrationRepository extends JpaRepository<RegistrationEntity, UUID> {
 
     RegistrationEntity findByStudent(String student);
-
 }
