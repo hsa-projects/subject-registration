@@ -10,7 +10,9 @@ import java.util.UUID;
 @Component
 public interface SubjectRepository extends JpaRepository<SubjectEntity, UUID> {
 
+    // return subject found by name
     SubjectEntity findByName(String name);
 
+    // delete subject by name
     void deleteSubjectByName(String name);
 }

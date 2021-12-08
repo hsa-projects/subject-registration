@@ -31,6 +31,7 @@ public class SubjectService {
         return this.subjectMapper.map(this.subjectRepository.findAll());
     }
 
+
     /**
      * Create a new subject
      *

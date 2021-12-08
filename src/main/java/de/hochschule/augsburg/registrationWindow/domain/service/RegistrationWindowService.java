@@ -5,7 +5,9 @@ import de.hochschule.augsburg.registrationWindow.domain.model.RegistrationWindow
 import de.hochschule.augsburg.registrationWindow.domain.model.RegistrationWindowUpdate;
 import de.hochschule.augsburg.registrationWindow.infrastructure.entity.RegistrationWindowEntity;
 import de.hochschule.augsburg.registrationWindow.infrastructure.repository.RegistrationWindowRepository;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.variable.VariableMap;
@@ -20,10 +22,13 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Getter
+@Setter
 public class RegistrationWindowService {
     private final RegistrationWindowRepository registrationWindowRepository;
     private final RegistrationWindowMapper registrationWindowMapper;
     private final RuntimeService runtimeService;
+    private boolean active = false;
 
     /**
      * Get all registration windows.

@@ -22,24 +22,24 @@ public class SubjectEntity {
     @Column(name = "id", unique = true, nullable = false, updatable = false, columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, columnDefinition = "VARCHAR(255)")
     private String name;
 
-    @Column(name = "professor", nullable = false)
+    @Column(name = "professor", nullable = false, columnDefinition = "VARCHAR(255)")
     private String professor;
 
-    @Column(name = "cp", nullable = false)
+    @Column(name = "cp", nullable = false, columnDefinition = "DECIMAL(3,1)")
     private Float creditPoints;
 
-    @Column(name= "description", nullable = true)
+    @Column(name= "description", nullable = true, columnDefinition = "MEDIUMTEXT")
     private String description;
 
-    @Column(name = "specialization", nullable = true)
+    @Column(name = "specialization", nullable = true, columnDefinition = "VARCHAR(255)")
     private String specialization;
 
-    @Column(name = "status", nullable = false)
+    @Column(name = "status", nullable = false, columnDefinition = "BIT")
     private Boolean status;
 
-    @Column(name = "capacity", nullable = false)
+    @Column(name = "capacity", nullable = false, columnDefinition = "SMALLINT")
     private Integer capacity;
 }
