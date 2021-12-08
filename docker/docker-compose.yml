@@ -98,7 +98,17 @@ services:
     volumes:
       - wpf_db_vol0:/var/lib/mysql
       - "./init_wpf.sql:/docker-entrypoint-initdb.d/init.sql"
-    #networks:
-    #  - wpf_net
+    networks:
+      - wpf_net
     # labels:
       #   - "traefik.enable=false"
+  wpf-backend:
+    image: dominikhrn/subject-registration:feat-authconverter
+    container_name: wpf-backend
+    ports:
+      - "9090:9090"
+    depends_on:
+      - wpf-db
+      - keycloak
+    networks:
+      - wpf_net
