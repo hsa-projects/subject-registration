@@ -1,0 +1,31 @@
+global:
+  sendAnonymousUsage: false
+  checkNewVersion: false
+
+log:
+  level: "DEBUG"
+  format: "common"
+  filepath: "/etc/traefik/log/traefik.log"
+
+api:
+  dashboard: true
+  insecure: true
+  debug: true
+
+providers:
+  docker:
+    exposedByDefault: false
+    endpoint: "unix:///var/run/docker.sock"
+    watch: true
+
+  file:
+    filename: "/etc/traefik/config.yml"
+    watch: true
+
+entryPoints:
+  web:
+    address: ":80"
+  websecure:
+    address: ":443"
+  dashboard: 
+    address: ":10080"
