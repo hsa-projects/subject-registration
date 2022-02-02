@@ -1,15 +1,14 @@
 package de.hochschule.augsburg.registration.infrastructure.entity;
 
+import de.hochschule.augsburg.subject.infrastructure.entity.SubjectEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.UUID;
 
 @Getter
 @Builder
@@ -21,13 +20,15 @@ public class SubjectSelectionEntity {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(name = "id", unique = true, nullable = false, updatable = false, length = 36)
-    private String id;
+    @Column(name = "id", unique = true, nullable = false, updatable = false, columnDefinition = "BINARY(16)")
+    private UUID id;
 
-    @Column(name = "subject", nullable = false)
-    private String subject;
+    @Column(name="subject_id", nullable = false)
+    private UUID subject;
 
-    @Column(name = "points", nullable = false)
-    private String points;
+    //Registration ID
+
+    @Column(name = "points", nullable = false, columnDefinition = "smallint")
+    private Integer points;
 
 }

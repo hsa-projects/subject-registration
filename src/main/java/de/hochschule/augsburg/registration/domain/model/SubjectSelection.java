@@ -1,10 +1,13 @@
 package de.hochschule.augsburg.registration.domain.model;
 
 
+import de.hochschule.augsburg.subject.domain.model.Subject;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
+
+import java.util.UUID;
 
 @Getter
 @Builder
@@ -12,9 +15,9 @@ import lombok.ToString;
 @AllArgsConstructor
 public class SubjectSelection {
 
-    private final String id;
+    private final UUID id;
 
-    private final String subject;
+    private final UUID subject;
 
     private final Integer points;
 

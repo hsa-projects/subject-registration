@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Builder
@@ -13,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Registration {
 
-    private final String id;
+    private final UUID id;
 
     private String student;
 

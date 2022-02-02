@@ -1,5 +1,6 @@
 package de.hochschule.augsburg.registration.api.transport;
 
+import de.hochschule.augsburg.subject.api.transport.SubjectTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
 @Getter
 @Builder
@@ -18,8 +20,7 @@ import javax.validation.constraints.NotNull;
 public class NewSubjectSelectionTO {
 
     @NotNull
-    @NotBlank
-    private String subject;
+    private UUID subject;
 
     @NotNull
     @Min(1)
