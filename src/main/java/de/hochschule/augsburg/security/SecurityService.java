@@ -1,7 +1,8 @@
+
+
+
 package de.hochschule.augsburg.security;
 
-
-import org.camunda.bpm.engine.impl.util.CollectionUtil;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;

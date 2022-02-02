@@ -33,12 +33,4 @@ public class RegistrationEntity {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "registration_id")
     private List<SubjectSelectionEntity> subjectSelection;
-
-    //@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    //@JoinTable(
-    //        name = "registrations_subjects",
-    //        joinColumns = @JoinColumn(name = "registration_id"),
-    //        inverseJoinColumns = @JoinColumn(name = "subject_id")
-    //)
-    //private List<SubjectEntity> subjectSelection;
 }

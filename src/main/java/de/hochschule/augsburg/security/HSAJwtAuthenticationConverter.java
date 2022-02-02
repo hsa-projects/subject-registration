@@ -22,6 +22,7 @@ public class HSAJwtAuthenticationConverter implements Converter<Jwt, AbstractAut
 
         final String username = jwt.getClaim("preferred_username");
 
+        // Collect all roles from jwt-token
         final List<String> rawRoles = jwt.getClaim("roles");
         final List<String> roles = rawRoles.stream().map(role-> "ROLE_" + role).collect(Collectors.toList());
 

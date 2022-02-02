@@ -1,13 +1,5 @@
 version: "3.7"
 
-networks:
-  # traefik_net:
-  #   name: traefik_net
-  keycloak_net:
-    name: keycloak_net
-  wpf_net:
-    name: wpf_net
-
 ## Persistent keycloak database
 volumes:
   keycloak_db_vol0:
@@ -16,6 +8,7 @@ volumes:
     driver: local
 
 services:
+
   ##############################################
   ##############################################
   ##
@@ -24,17 +17,13 @@ services:
   ##
   ##############################################
   ##############################################
-
   keycloak-db:
     image: mysql:5.7
     container_name: keycloak-db
-    env_file: ./keycloak-db.env
+    restart: always
+    env_file: keycloak/keycloak-db.env
     volumes:
       - keycloak_db_vol0:/var/lib/mysql
-    networks:
-      - keycloak_net
-    # labels:
-    #   - "traefik.enable=false"
 
   #########################################################
   #########################################################
@@ -45,38 +34,14 @@ services:
   ##
   #########################################################
   #########################################################
-
   keycloak:
     image: quay.io/keycloak/keycloak:latest
     container_name: keycloak
-    hostname: keycloak
-    domainname: docker.localhost
-    env_file: ./keycloak.env
+    restart: always
+    env_file: keycloak/keycloak.env
     volumes:
       # Realm configuration file for import
-      - "./export/hsa-realm.json:/opt/jboss/keycloak/imports/hsa-realm.json:ro"
-    networks:
-      - keycloak_net
-      # - traefik_net
-    # For usage without traefik
-    ports:
-      # HTTP port
-      - 8080:8080
-      # HTTPS port
-      - 8443:8443
-    # labels:
-      # Enable this container to be mapped by traefik
-      # For more information, see: https://docs.traefik.io/providers/docker/#exposedbydefault
-      # - "traefik.enable=true"
-      # - "traefik.docker.network=traefik_net"
-      # URL to reach this container
-      # - "traefik.http.routers.keycloak.rule=Host(`docker.localhost`)"
-      # Activation of TLS
-      # Access via HTTPS only
-      # - "traefik.http.routers.keycloak.entrypoints=websecure"
-      # - "traefik.http.routers.keycloak.tls=true"
-      # If port is different then 80, use the following service:
-      # - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
+      - "./keycloak/import/hsa-realm.json:/opt/jboss/keycloak/imports/hsa-realm.json:ro"
     depends_on:
       - keycloak-db
 
@@ -88,27 +53,56 @@ services:
   ##
   ##############################################
   ##############################################
-
   wpf-db:
     image: mysql:5.7
     container_name: wpf-db
-    env_file: ./wpf-db.env
+    restart: always
+    env_file: wpf/wpf-db.env
     ports:
-      - "3307:3306"
+      - 3307:3306
     volumes:
       - wpf_db_vol0:/var/lib/mysql
-      - "./init_wpf.sql:/docker-entrypoint-initdb.d/init.sql"
-    networks:
-      - wpf_net
-    # labels:
-      #   - "traefik.enable=false"
+      - "./wpf/init_wpf.sql:/docker-entrypoint-initdb.d/init.sql"
+
+  ##############################################
+  ##############################################
+  ##
+  ## WPF-Backend
+  ## Subject-Registration spring boot app
+  ##
+  ##############################################
+  ##############################################
   wpf-backend:
     image: dominikhrn/subject-registration:feat-authconverter
+    restart: always
     container_name: wpf-backend
-    ports:
-      - "9090:9090"
     depends_on:
       - wpf-db
-      - keycloak
-    networks:
-      - wpf_net
+
+  ##############################################
+  ##############################################
+  ##
+  ## WPF-Frontend
+  ## Subject-Registration react app
+  ##
+  ##############################################
+  ##############################################
+  wpf-frontend:
+    image: dominikhrn/subject-registration-frontend:feat-dockerhub
+    restart: always
+    container_name: wpf-frontend
+    depends_on:
+      - wpf-db
+
+  ##############################################
+  ##############################################
+  ##
+  ## Proxy
+  ## NGINX Proxy
+  ##
+  ##############################################
+  ##############################################
+  nginx:
+    image: nginx:1.19.1
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
