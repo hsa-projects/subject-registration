@@ -33,6 +33,7 @@ services:
 
     volumes:
       - ./keycloak/realms/:/opt/jboss/keycloak/imports
+      - ../frontend/keycloak/hsa-theme:/opt/jboss/keycloak/themes/hsa-theme
     ports:
       - 8080:8080
     depends_on:
