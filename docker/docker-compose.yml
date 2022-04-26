@@ -17,7 +17,7 @@ services:
       MYSQL_USER: keycloak
       MYSQL_PASSWORD: password
   keycloak:
-    image: quay.io/keycloak/keycloak:latest
+    image: quay.io/keycloak/keycloak:15.1.1
     environment:
       KEYCLOAK_IMPORT: /opt/jboss/keycloak/imports/hsa-realm.json -Dkeycloak.profile.feature.upload_scripts=enabled
       DB_VENDOR: MYSQL
@@ -32,7 +32,7 @@ services:
       #JDBC_PARAMS: "connectTimeout=30000"
 
     volumes:
-      - ./conf:/opt/jboss/keycloak/imports
+      - ./keycloak/realms/:/opt/jboss/keycloak/imports
     ports:
       - 8080:8080
     depends_on:
