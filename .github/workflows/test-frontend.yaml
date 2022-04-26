@@ -8,6 +8,8 @@ on:
       - '**'
     tags:
       - 'v*.*.*'
+    paths:
+      - 'frontend/**'
   pull_request:
     branches:
       - 'master'
