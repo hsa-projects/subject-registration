@@ -1,0 +1,52 @@
+{
+  "name": "subject-registration-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.12.0",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/user-event": "^12.8.3",
+    "axios": "^0.21.1",
+    "bootstrap": "^5.0.1",
+    "keycloak-js": "^15.0.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.3",
+    "sass": "^1.34.0",
+    "typescript": "^4.5.2",
+    "typescript-axios": "file:src/api",
+    "web-vitals": "^1.1.2"
+  },
+  "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.4.18",
+    "customize-cra": "^1.0.0",
+    "react-app-rewired": "^2.1.8",
+    "ts-loader": "^8.2.0"
+  },
+  "scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-scripts eject",
+    "apiGeneration": "openapi-generator-cli generate -i http://localhost:9090/v3/api-docs -g typescript-axios -o src/api"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
