@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'dev'
+      - 'main'
     tags:
       - 'v*.*.*'
     
@@ -11,7 +12,7 @@ on:
       - 'backend/**'
   pull_request:
     branches:
-      - 'master'
+      - 'main'
 
 jobs:
   docker-backend:

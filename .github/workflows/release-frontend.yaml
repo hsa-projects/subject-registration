@@ -4,13 +4,14 @@ on:
   push:
     branches:
       - 'dev'
+      - 'main'
     tags:
       - 'v*.*.*'
     paths:
       - 'frontend/**'
   pull_request:
     branches:
-      - 'master'
+      - 'main'
 
 jobs:
   release-frontend:
@@ -43,7 +44,6 @@ jobs:
         with:
           node-version: 14.x
           registry-url: 'https://npm.pkg.github.com'
-          scope: '@flowsquad'
 
       - name: Set Yarn Cache Directory
         id: yarn-cache-dir-path
