@@ -14,6 +14,8 @@ on:
     branches:
       - 'main'
 
+  workflow_dispatch:
+
 jobs:
   docker-backend:
     runs-on: ubuntu-latest
