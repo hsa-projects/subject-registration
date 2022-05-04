@@ -1,5 +1,5 @@
 import {useContext, useEffect, useState} from "react";
-import {SubjectControllerApi} from "typescript-axios";
+import {SubjectControllerApi} from "@/api";
 import Navbar from "../layout/Navbar";
 import BurgerMenu from "../layout/BurgerMenu";
 import Pagination from "../layout/Pagination";

@@ -1,7 +1,7 @@
 import Navbar from "../layout/Navbar";
 import BurgerMenu from "../layout/BurgerMenu";
 import {URLS} from "../../App";
-import {RegistrationControllerApi, SubjectControllerApi} from "typescript-axios";
+import {RegistrationControllerApi, SubjectControllerApi} from "@/api";
 import {useContext, useEffect, useState} from "react";
 import userContext from "../../context/userContext";
 import SubjectSelectionContext from "../../context/subjectSelectionContext";
