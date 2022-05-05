@@ -1,7 +1,7 @@
 import Navbar from "../layout/Navbar";
 import BurgerMenu from "../layout/BurgerMenu";
 import { URLS } from "../../App";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import userContext from "../../context/userContext";
 import { SubjectControllerApi } from "@/api";
@@ -25,7 +25,7 @@ function SubjectDetail(props) {
   const [subject, setSubject] = useState();
   const [previousPath, setPreviousPath] = useState();
   const { name } = useParams();
-  let history = useHistory();
+  let navigate = useNavigate();
 
   const subjectName = name.replace("_", " ");
 
@@ -63,7 +63,7 @@ function SubjectDetail(props) {
    * @param {MouseEvent} e Instance of the mouse event.
    */
   const goBack = (e) => {
-    history.goBack();
+    navigate(-1);
     e.preventDefault();
   };
 

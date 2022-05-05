@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useHistory, Link, NavLink } from "react-router-dom";
+import { useNavigate, Link, NavLink } from "react-router-dom";
 import { URLS } from "@/App";
 import { calculateSemester } from "@/util/util";
 
@@ -30,7 +30,7 @@ const NAV_ITEM_MAP = {
  * @constructor
  */
 function BurgerMenu(args) {
-  let history = useHistory();
+  let navigate = useNavigate();
 
   const [menuExpanded, setMenuExpanded] = useState(true);
 
@@ -54,16 +54,16 @@ function BurgerMenu(args) {
     console.log(`Handle click on icon ${name}!`);
     switch (name) {
       case URLS.HOME:
-        history.push("/");
+        navigate("/");
         break;
       case URLS.REGISTRATIONS:
-        history.push(`/${URLS.REGISTRATIONS}`);
+        navigate(`/${URLS.REGISTRATIONS}`);
         break;
       case URLS.SUBJECTS:
-        history.push(`/${URLS.SUBJECTS}`);
+        navigate(`/${URLS.SUBJECTS}`);
         break;
       case URLS.INFO:
-        history.push(`/${URLS.INFO}`);
+        navigate(`/${URLS.INFO}`);
         break;
       case URLS.LOGOUT:
         args.logout();
@@ -120,30 +120,42 @@ function BurgerMenu(args) {
         {menuExpanded && (
           <>
             <NavLink
-              className="nav-link link-primary"
-              activeClassName="bg-primary active"
+              className={({ isActive }) =>
+                isActive
+                  ? "nav-link link-primary bg-primary active"
+                  : "nav-link link-primary"
+              }
               to="/"
-              exact
+              end
             >
               {NAV_ITEM_MAP.HOME}
             </NavLink>
             <NavLink
-              className="nav-link link-primary"
-              activeClassName="bg-primary active"
+              className={({ isActive }) =>
+                isActive
+                  ? "nav-link link-primary bg-primary active"
+                  : "nav-link link-primary"
+              }
               to={`/${URLS.REGISTRATIONS}`}
             >
               {NAV_ITEM_MAP.REGISTRATIONS}
             </NavLink>
             <NavLink
-              className="nav-link link-primary"
-              activeClassName="bg-primary active"
+              className={({ isActive }) =>
+                isActive
+                  ? "nav-link link-primary bg-primary active"
+                  : "nav-link link-primary"
+              }
               to={`/${URLS.SUBJECTS}`}
             >
               {NAV_ITEM_MAP.SUBJECTS}
             </NavLink>
             <NavLink
-              className="nav-link link-primary"
-              activeClassName="bg-primary active"
+              className={({ isActive }) =>
+                isActive
+                  ? "nav-link link-primary bg-primary active"
+                  : "nav-link link-primary"
+              }
               to={`/${URLS.INFO}`}
             >
               {NAV_ITEM_MAP.INFO}

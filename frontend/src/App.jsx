@@ -6,7 +6,7 @@ import StartRegistration from "./components/pages/StartRegistration";
 import SubjectOverview from "./components/pages/SubjectOverview";
 import SubjectDetail from "./components/pages/SubjectDetail";
 import Info from "./components/pages/Info";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useEffect, useState } from "react";
 import userContext from "./context/userContext";
 import SubjectSelectionContext from "./context/subjectSelectionContext";
@@ -58,25 +58,27 @@ function App() {
                 value={{ subjectSelection, setSubjectSelection }}
               >
                 <Router>
-                  <Route path="/" component={Home} exact />
-                  <Route
-                    path={`/${URLS.REGISTRATIONS}`}
-                    component={MyRegistrations}
-                  />
-                  <Route
-                    path={`/${URLS.START_REGISTRATION}`}
-                    component={StartRegistration}
-                  />
-                  <Route
-                    path={`/${URLS.SUBJECTS}`}
-                    component={SubjectOverview}
-                    exact
-                  />
-                  <Route
-                    path={`/${URLS.SUBJECTS}/:name`}
-                    component={SubjectDetail}
-                  />
-                  <Route path={`/${URLS.INFO}`} component={Info} />
+                  <Routes>
+                    <Route path="/" element={<Home />} end />
+                    <Route
+                      path={`/${URLS.REGISTRATIONS}`}
+                      element={<MyRegistrations />}
+                    />
+                    <Route
+                      path={`/${URLS.START_REGISTRATION}`}
+                      element={<StartRegistration />}
+                    />
+                    <Route
+                      path={`/${URLS.SUBJECTS}`}
+                      element={<SubjectOverview />}
+                      end
+                    />
+                    <Route
+                      path={`/${URLS.SUBJECTS}/:name`}
+                      element={<SubjectDetail />}
+                    />
+                    <Route path={`/${URLS.INFO}`} element={<Info />} />
+                  </Routes>
                 </Router>
               </SubjectSelectionContext.Provider>
             </userContext.Provider>
