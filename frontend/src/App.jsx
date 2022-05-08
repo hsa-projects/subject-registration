@@ -27,6 +27,12 @@ export const COURSE_CATALOGUE = {
   MASTER: "https://cloud.hs-augsburg.de/s/a7TnPfxtmXbxTcD",
 };
 
+const KEYCLOAK_CONFIG = {
+  realm: "hsa",
+  url: "http://localhost:8080/auth/",
+  clientId: "wpf-rest-api",
+};
+
 function App() {
   const [user, setUser] = useState(null);
   const [subjectSelection, setSubjectSelection] = useState(null);
@@ -35,18 +41,33 @@ function App() {
 
   useEffect(() => {
     const createKeycloak = async () => {
-      const keycloak = Keycloak("/keycloak.json");
+      const keycloak = Keycloak(KEYCLOAK_CONFIG);
 
-      await keycloak.init({ onLoad: "login-required" });
+      await keycloak.init({
+        onLoad: "login-required",
+        redirectUri: "http://localhost:3000",
+      });
       setKeycloak(keycloak);
       setAuthenticated(keycloak.authenticated);
       setUser(keycloak);
     };
 
     if (!keycloak) {
-      createKeycloak().catch(console.error);
+      // The timeout is needed to prevent an infinite redirect bug when
+      // using <StrictMode>, see: https://github.com/react-keycloak/react-keycloak/issues/182
+      // In pruduction this should have no noticeable difference, since
+      // a timeout with 0 is executed on the next event cycle
+      const timer = setTimeout(() => {
+        createKeycloak().catch(console.error);
+      }, 0);
+
+      return () => {
+        clearTimeout(timer);
+      };
     }
-  }, [keycloak, setKeycloak, authenticated, setAuthenticated]);
+
+    return () => {};
+  }, []);
 
   return (
     <>
