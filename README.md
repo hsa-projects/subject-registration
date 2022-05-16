@@ -27,8 +27,6 @@ Before you can start the project, you have to install the following requirements
 
 At first, the dependencies of this project need to be installed. Run``` npm install ```or```yarn```  inside the project root folder in order to do this.
 
-Make sure that you've pulled the backend repository of this project.
-
 #### 1. Keycloak server
 
 Init the keycloak server with ``` sudo docker-compose up```(at path ``` subject-registration/docker```, backend repo)
