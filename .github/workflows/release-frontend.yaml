@@ -1,18 +1,26 @@
-name: ci
+name: "Release Frontend"
 
 on:
   push:
     branches:
-      - '**'
+      - 'dev'
+      - 'main'
     tags:
       - 'v*.*.*'
+    paths:
+      - 'frontend/**'
   pull_request:
     branches:
-      - 'master'
+      - 'main'
+
+  workflow_dispatch:
 
 jobs:
-  docker:
+  release-frontend:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -22,7 +30,7 @@ jobs:
         with:
           # list of Docker images to use as base name for tags
           images: |
-            dominikhrn/subject-registration
+            dominikhrn/subject-registration-frontend
           # generate Docker tags based on the following events/attributes
           tags: |
             type=ref,event=branch
@@ -33,14 +41,34 @@ jobs:
             type=sha
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
-      - uses: actions/checkout@v2
-      - name: Set up JDK 11
-        uses: actions/setup-java@v2
+      - name: Setup NodeJS 14.x
+        uses: actions/setup-node@v1
         with:
-          java-version: '11'
-          distribution: 'adopt'
-      - name: Build with Maven
-        run: mvn --batch-mode --update-snapshots verify
+          node-version: 14.x
+          registry-url: 'https://npm.pkg.github.com'
+
+      - name: Set Yarn Cache Directory
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Restore Yarn Cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      # Should actually be run without scripts, see https://github.com/actions/setup-node ("Use private packages").
+      # However, yarn does not allow to run them in a separate step.
+      - name: Install Dependencies
+        run: yarn
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.PACKAGES_DEPLOYMENT_TOKEN }}
+
+      - name: Build Application
+        run: yarn build
+        env:
+          CI: false
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
       - name: Login to DockerHub
@@ -52,7 +80,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: .
+          context: frontend
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

@@ -1,0 +1,13 @@
+
+services:
+  backend:
+    image: dominikhrn/subject-registration:dev
+    
+    environment:
+      SERVER_PORT: 8080
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK-SET-URI: "http://keycloak:8080/auth/realms/hsa/protocol/openid-connect/certs"
+    
+    ports:
+      - 9090:8080
+    depends_on:
+      - keycloak

@@ -1,0 +1,56 @@
+name: "Test Frontend"
+
+# For now we test the frontend by just building it, in the future tests should be run here
+
+on:
+  push:
+    branches:
+      - '**'
+    tags:
+      - 'v*.*.*'
+    paths:
+      - 'frontend/**'
+  pull_request:
+    branches:
+      - 'master'
+
+  workflow_dispatch:
+
+jobs:
+  test-frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup NodeJS 14.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@flowsquad'
+
+      - name: Set Yarn Cache Directory
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Restore Yarn Cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      # Should actually be run without scripts, see https://github.com/actions/setup-node ("Use private packages").
+      # However, yarn does not allow to run them in a separate step.
+      - name: Install Dependencies
+        run: yarn
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.PACKAGES_DEPLOYMENT_TOKEN }}
+
+      - name: Build Application
+        run: yarn build
+        env:
+          CI: false
