@@ -22,8 +22,6 @@ function Home() {
   // initially fetch the registration and subject selection of the logged in user
   useEffect(() => {
     const loadUsers = async () => {
-      const userInfo = await user.loadUserInfo();
-      setUserInfo(userInfo);
       if (!subjectSelection) {
         const registrationResponse = await registrationApi.getRegistration(
           user.subject,
