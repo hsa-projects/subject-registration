@@ -1,9 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { SubjectControllerApi } from "@/api";
-import Navbar from "../layout/Navbar";
-import BurgerMenu from "../layout/BurgerMenu";
 import Pagination from "../layout/Pagination";
-import { URLS, MASTER_MAJORS, COURSE_CATALOGUE } from "../../App";
+import { MASTER_MAJORS, COURSE_CATALOGUE } from "../../App";
 import SubjectSelectionContext from "../../context/subjectSelectionContext";
 import userContext from "../../context/userContext";
 import { getRequestHeaders } from "../../util/util";
@@ -53,17 +51,6 @@ function SubjectOverview() {
 
   return (
     <>
-      <Navbar />
-      <BurgerMenu
-        name={URLS.SUBJECTS}
-        username={
-          userInfo ? `${userInfo.given_name} ${userInfo.family_name}` : ""
-        }
-        major={userInfo ? userInfo.degreeCourse : ""}
-        preferred_username={userInfo ? userInfo.preferred_username : ""}
-        logout={user ? user.logout : null}
-        timestamp={userInfo ? userInfo.createTimestamp : "20210911"}
-      />
       <div className="container main">
         <div className="row">
           <h2 style={{ marginBottom: "0.75em" }}>

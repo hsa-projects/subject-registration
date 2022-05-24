@@ -52,17 +52,6 @@ function StartRegistration() {
 
   return (
     <>
-      <Navbar />
-      <BurgerMenu
-        name={URLS.REGISTRATIONS}
-        username={
-          userInfo ? `${userInfo.given_name} ${userInfo.family_name}` : ""
-        }
-        major={userInfo ? userInfo.degreeCourse : ""}
-        preferred_username={userInfo ? userInfo.preferred_username : ""}
-        logout={user ? user.logout : null}
-        timestamp={userInfo ? userInfo.createTimestamp : "20210911"}
-      />
       <div className="container main">
         <div className="row">
           <h2 style={{ marginBottom: "0.75em" }}>Anmeldeprozess starten</h2>

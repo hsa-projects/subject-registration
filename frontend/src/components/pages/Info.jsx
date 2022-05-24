@@ -1,7 +1,5 @@
-import Navbar from "../layout/Navbar";
 import userContext from "../../context/userContext";
-import BurgerMenu from "../layout/BurgerMenu";
-import { URLS, MASTER_MAJORS, COURSE_CATALOGUE } from "../../App";
+import { MASTER_MAJORS, COURSE_CATALOGUE } from "../../App";
 import { useEffect, useState, useContext } from "react";
 
 const FWP_DETAIL_URL =
@@ -28,17 +26,6 @@ function Info() {
 
   return (
     <>
-      <Navbar />
-      <BurgerMenu
-        name={URLS.INFO}
-        username={
-          userInfo ? `${userInfo.given_name} ${userInfo.family_name}` : ""
-        }
-        major={userInfo ? userInfo.degreeCourse : ""}
-        preferred_username={userInfo ? userInfo.preferred_username : ""}
-        logout={user ? user.logout : null}
-        timestamp={userInfo ? userInfo.createTimestamp : "20210911"}
-      />
       <div className="container main">
         <div className="row">
           <h2 style={{ marginBottom: "0.75em" }}>

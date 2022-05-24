@@ -1,6 +1,3 @@
-import Navbar from "../layout/Navbar";
-import BurgerMenu from "../layout/BurgerMenu";
-import { URLS } from "../../App";
 import { RegistrationControllerApi, SubjectControllerApi } from "@/api";
 import { useContext, useEffect, useState } from "react";
 import userContext from "../../context/userContext";
@@ -18,7 +15,6 @@ function Home() {
   const registrationApi = new RegistrationControllerApi();
   const subjectApi = new SubjectControllerApi();
   const { user, setUser } = useContext(userContext);
-  const [userInfo, setUserInfo] = useState(null);
   const { subjectSelection, setSubjectSelection } = useContext(
     SubjectSelectionContext
   );
@@ -68,17 +64,6 @@ function Home() {
 
   return (
     <>
-      <Navbar />
-      <BurgerMenu
-        name={URLS.HOME}
-        username={
-          userInfo ? `${userInfo.given_name} ${userInfo.family_name}` : ""
-        }
-        major={userInfo ? userInfo.degreeCourse : ""}
-        preferred_username={userInfo ? userInfo.preferred_username : ""}
-        logout={user ? user.logout : null}
-        timestamp={userInfo ? userInfo.createTimestamp : "20210911"}
-      />
       <div className="container main">
         <div className="row">
           <h2>Startseite</h2>

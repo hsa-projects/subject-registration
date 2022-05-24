@@ -1,6 +1,3 @@
-import Navbar from "../layout/Navbar";
-import BurgerMenu from "../layout/BurgerMenu";
-import { URLS } from "../../App";
 import { useParams, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import userContext from "../../context/userContext";
@@ -69,17 +66,6 @@ function SubjectDetail(props) {
 
   return (
     <>
-      <Navbar />
-      <BurgerMenu
-        name={URLS.SUBJECTS}
-        username={
-          userInfo ? `${userInfo.given_name} ${userInfo.family_name}` : ""
-        }
-        major={userInfo ? userInfo.degreeCourse : ""}
-        preferred_username={userInfo ? userInfo.preferred_username : ""}
-        logout={user ? user.logout : null}
-        timestamp={userInfo ? userInfo.createTimestamp : "20210911"}
-      />
       <div className="container main">
         <div className="row" style={{ marginBottom: "0.75em" }}>
           <p style={{ color: "#F00045" }}>
