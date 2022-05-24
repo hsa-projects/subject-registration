@@ -15,12 +15,12 @@
     width: 50px;
 }
 
-.burger-menu > .nav-link {
+.burger-menu>.nav-link {
     height: 3.5em;
     line-height: 2.5em;
 }
 
-.burger-menu > .nav-link:hover {
+.burger-menu>.nav-link:hover {
     background-color: #F00045;
     color: white;
 }
