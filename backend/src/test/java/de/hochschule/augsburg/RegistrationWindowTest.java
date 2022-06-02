@@ -3,18 +3,12 @@ package de.hochschule.augsburg;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.test.Deployment;
 import org.camunda.bpm.engine.test.junit5.ProcessEngineExtension;
-import org.camunda.bpm.extension.mockito.DelegateExpressions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
-import java.time.LocalDate;
 import java.util.Map;
 
-import static org.assertj.core.api.Assertions.as;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.assertThat;
 import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.*;
-import static org.camunda.bpm.model.cmmn.PlanItemTransition.complete;
 
 
 public class RegistrationWindowTest {
@@ -22,58 +16,59 @@ public class RegistrationWindowTest {
 
     ProcessEngineExtension extension = ProcessEngineExtension.builder().build();
 
+    
     @Test
     @Deployment(resources = {"registration_window.bpmn"})
-    public void processExecutionTest(){
-    ProcessInstance processInstance = runtimeService().startProcessInstanceByKey("Process_Registration_Window",Map.of("registration_window_start", "2021-11-20T10:02:00","registration_window_end","2021-11-20T10:02:00"));
-    assertThat(processInstance).isActive();
+    public void processExecutionTest() {
+        ProcessInstance processInstance = runtimeService().startProcessInstanceByKey("Process_Registration_Window", Map.of("registration_window_start", "2021-11-20T10:02:00", "registration_window_end", "2021-11-20T10:02:00"));
+        assertThat(processInstance).isActive();
 
-    assertThat(processInstance).isWaitingAt("Activity_Mail_Registration_Soon");
+        assertThat(processInstance).isWaitingAt("Activity_Mail_Registration_Soon");
 
-    complete(task());
+        complete(task());
 
-    assertThat(processInstance).isWaitingAt("TimeEvent_RegistrationWindow_Start");
+        assertThat(processInstance).isWaitingAt("TimeEvent_RegistrationWindow_Start");
 
-    execute(job());
+        execute(job());
 
-    assertThat(processInstance).isWaitingAt("Activity_Registration_release");
+        assertThat(processInstance).isWaitingAt("Activity_Registration_release");
 
-    complete(task());
+        complete(task());
 
-    assertThat(processInstance).isWaitingAt("Activity_Mail_Registration_start");
+        assertThat(processInstance).isWaitingAt("Activity_Mail_Registration_start");
 
-    complete(task());
+        complete(task());
 
-    assertThat(processInstance).isWaitingAt("TimeEvent_RegistrationWindow_End");
+        assertThat(processInstance).isWaitingAt("TimeEvent_RegistrationWindow_End");
 
-    execute(job());
+        execute(job());
 
-    runtimeService().signalEventReceived("Signal_RegisterWindow_Timeout");
+        runtimeService().signalEventReceived("Signal_RegisterWindow_Timeout");
 
 
-    assertThat(processInstance).isWaitingAt("Activity_Registration_Lock");
+        assertThat(processInstance).isWaitingAt("Activity_Registration_Lock");
 
-    complete(task());
+        complete(task());
 
-    assertThat(processInstance).isWaitingAt("TimEvent_Lock_Wait");
+        assertThat(processInstance).isWaitingAt("TimEvent_Lock_Wait");
 
-    execute(job());
+        execute(job());
 
-    assertThat(processInstance).isWaitingAt("Activity_Registration_Algorithm");
+        assertThat(processInstance).isWaitingAt("Activity_Registration_Algorithm");
 
-    complete(task());
+        complete(task());
 
-    runtimeService().signalEventReceived("Signal_Results_Available");
+        runtimeService().signalEventReceived("Signal_Results_Available");
 
-    assertThat(processInstance).isWaitingAt("TimEvent_Results_Wait");
+        assertThat(processInstance).isWaitingAt("TimEvent_Results_Wait");
 
-    execute(job());
+        execute(job());
 
-    assertThat(processInstance).isWaitingAt("Activity_Mail_Results_Available");
+        assertThat(processInstance).isWaitingAt("Activity_Mail_Results_Available");
 
-    complete(task());
+        complete(task());
 
-    assertThat(processInstance).isEnded();
+        assertThat(processInstance).isEnded();
 
     }
 }
