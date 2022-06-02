@@ -3,6 +3,7 @@ package de.hochschule.augsburg;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.test.Deployment;
 import org.camunda.bpm.engine.test.junit5.ProcessEngineExtension;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
@@ -10,12 +11,10 @@ import java.util.Map;
 
 import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.*;
 
-
 public class RegistrationWindowTest {
     @RegisterExtension
 
     ProcessEngineExtension extension = ProcessEngineExtension.builder().build();
-
     
     @Test
     @Deployment(resources = {"registration_window.bpmn"})
