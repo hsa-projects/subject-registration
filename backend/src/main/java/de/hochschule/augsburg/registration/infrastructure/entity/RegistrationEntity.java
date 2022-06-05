@@ -1,5 +1,6 @@
 package de.hochschule.augsburg.registration.infrastructure.entity;
 
+import de.hochschule.augsburg.registrationWindow.infrastructure.entity.RegistrationWindowEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,7 +28,11 @@ public class RegistrationEntity {
     private String student;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "registration_id")
+    @JoinColumn(name = "subjectSelection_id")
     private List<SubjectSelectionEntity> subjectSelection;
+
+    @OneToOne
+    @JoinColumn(name= "registration_window_id")
+    private RegistrationWindowEntity registrationWindowEntity;
 
 }

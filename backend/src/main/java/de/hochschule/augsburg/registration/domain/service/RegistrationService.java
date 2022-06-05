@@ -147,4 +147,8 @@ public class RegistrationService {
                 .orElseThrow();
     }
 
+    public List<Registration> getRegistrationsByRegistrationWindowAndSubject(UUID registrationWindowId, UUID subjectId) {
+       return this.registrationMapper.map(this.registrationRepository.findByRegistrationWindowAndSubject(registrationWindowId,subjectId));
+
+    }
 }

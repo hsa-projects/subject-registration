@@ -1,5 +1,6 @@
 package de.hochschule.augsburg.registration.infrastructure.entity;
 
+import de.hochschule.augsburg.subject.infrastructure.entity.SubjectEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,10 +23,15 @@ public class SubjectSelectionEntity {
     @Column(name = "id", unique = true, nullable = false, updatable = false, columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @Column(name="subject_id", nullable = false)
-    private UUID subject;
+    @OneToOne
+    @JoinColumn(name="subject_id", nullable = false)
+    private SubjectEntity subjectEntity;
 
     //Registration ID
+    @OneToOne
+    @JoinColumn(name="registration_id", nullable = false)
+    private RegistrationEntity registrationEntity;
+
 
     @Column(name = "points", nullable = false)
     private Integer points;
