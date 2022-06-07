@@ -1,13 +1,14 @@
-import { useState } from "react";
-import { useNavigate, Link, NavLink } from "react-router-dom";
-import { URLS } from "@/server_constants";
-//import { URLS } from "@/App";
-import { calculateSemester } from "@/util/util";
+
+import { JSXElementConstructor, useState } from "react";
+import { useNavigate, Link, NavLink, NavigateFunction } from "react-router-dom";
+import { Interface } from "readline";
+import { URLS } from "../../server_constants";
+import { calculateSemester } from "../../util/util";
 
 const ICON_PROPS = {
   WIDTH: "48px",
   HEIGHT: "48px",
-  COLOR: "#F00045",
+  COLOR: "#F00045"
 };
 
 const NAV_ITEM_MAP = {
@@ -15,31 +16,46 @@ const NAV_ITEM_MAP = {
   REGISTRATIONS: "Meine Anmeldungen",
   SUBJECTS: "Übersicht Wahlpflichtfächer",
   INFO: "Informationen Wahlpflichtfächer",
-  LOGOUT: "Abmelden",
+  LOGOUT: "Abmelden"
 };
 
-/**
- * Represents the burger menu of the application.
- * @param {Object} args Arguments passed to the burger instance.
- * @param {string} args.name Name of the page. (e.g. 'home')
- * @param {string} args.username Name of the logged in user.
- * @param {string} args.major Major of the user. (e.g. IN5)
- * @param {string} args.preferred_username The RZ name of the student.
- * @param {Function} args.logout Function which logs out the user from the application.
- * @param {string} args.timestamp Creation timestamp of the user's RZ account.
- * @return {JSX.Element}
- * @constructor
- */
-function BurgerMenu(args) {
-  let navigate = useNavigate();
+interface burgerMenuProps {
+  /**
+   * Name of the page. (e.g. 'home')
+   */
+   name : string;
+  /**
+   * Name of the logged in user.
+   */
+   username : string;
+  /**
+   * Major of the user. (e.g. IN5)
+   */
+   major : string;
+  /**
+   * The RZ name of the student
+   */
+   preferred_username : string;
+  /**
+   * Function which logs out the user from the application.
+   */
+   logout : () => {};
+  /**
+   * Creation timestamp of the user's RZ account.
+   */
+   timestamp : string;
+}
+
+function BurgerMenu (args : burgerMenuProps) {
+  let navigate : NavigateFunction = useNavigate();
 
   const [menuExpanded, setMenuExpanded] = useState(true);
 
-  const iconClasses = menuExpanded
+  const iconClasses : string = menuExpanded
     ? "icon-burger-menu collapsed"
     : "icon-burger-menu";
 
-  const menuClasses = menuExpanded
+  const menuClasses : string = menuExpanded
     ? "nav-pills flex-column burger-menu"
     : "nav-pills flex-column burger-menu collapsed";
 
@@ -51,7 +67,7 @@ function BurgerMenu(args) {
    * Handle the clicks on a collapsed burger menu item.
    * @param {string} name Name of the burger menu item. (e.g. 'home')
    */
-  const handleClick = (name) => {
+  const handleClick = (name : string) => {
     console.log(`Handle click on icon ${name}!`);
     switch (name) {
       case URLS.HOME:
