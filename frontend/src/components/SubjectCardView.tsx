@@ -58,7 +58,7 @@ interface SubjectCardViewProps {
 
     /**
      * True => show user that they can register for this subject; False => show user that they
- * can unregister from this subject.
+     * can unregister from this subject.
      */
     enroll: boolean
 }
