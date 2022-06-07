@@ -1,4 +1,4 @@
-import { URLS } from "../../App";
+import { URLS } from "@/server_constants";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import RegistrationTableItem from "../RegistrationTableItem";

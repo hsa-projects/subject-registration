@@ -1,7 +1,7 @@
 import Navbar from "../layout/Navbar";
 import BurgerMenu from "../layout/BurgerMenu";
 import { useContext, useEffect, useState } from "react";
-import { URLS } from "../../App";
+import { URLS } from "@/server_constants";
 import userContext from "../../context/userContext";
 import { RegistrationWindowControllerApi } from "@/api";
 

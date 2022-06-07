@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { SubjectControllerApi } from "@/api";
 import Pagination from "../layout/Pagination";
-import { MASTER_MAJORS, COURSE_CATALOGUE } from "../../App";
+import { MASTER_MAJORS, COURSE_CATALOGUE } from "@/server_constants";
 import SubjectSelectionContext from "../../context/subjectSelectionContext";
 import userContext from "../../context/userContext";
 import { getRequestHeaders } from "../../util/util";

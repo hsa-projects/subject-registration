@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { URLS } from "../App";
+import { URLS } from "@/server_constants";
+//import { URLS } from "../App";
 import SubjectSelectionContext from "../context/subjectSelectionContext";
 import { useContext } from "react";
 

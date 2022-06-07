@@ -1,5 +1,5 @@
 import userContext from "../../context/userContext";
-import { MASTER_MAJORS, COURSE_CATALOGUE } from "../../App";
+import { MASTER_MAJORS, COURSE_CATALOGUE } from "@/server_constants";
 import { useEffect, useState, useContext } from "react";
 
 const FWP_DETAIL_URL =

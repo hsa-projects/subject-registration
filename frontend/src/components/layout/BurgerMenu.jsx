@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link, NavLink } from "react-router-dom";
-import { URLS } from "@/App";
+import { URLS } from "@/server_constants";
+//import { URLS } from "@/App";
 import { calculateSemester } from "@/util/util";
 
 const ICON_PROPS = {
