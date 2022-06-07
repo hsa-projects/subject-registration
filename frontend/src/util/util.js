@@ -38,7 +38,7 @@ function calculateSemester(creationTimestamp) {
     return Math.floor(diffInMonths / SEMESTER_IN_MONTHS) + 1; // increment to get current semester
 }
 
-module.exports = {
+export {
     calculateSemester,
     getRequestHeaders
 };
