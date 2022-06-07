@@ -18,7 +18,7 @@ import { useEffect, useState } from "react";
 import userContext from "./context/userContext";
 import SubjectSelectionContext from "./context/subjectSelectionContext";
 import Keycloak from "keycloak-js";
-import { URLS, KEYCLOAK_CONFIG, MASTER_MAJORS, COURSE_CATALOGUE } from "./server_constants";
+import { URLS } from "./server_constants";
 
 function App() {
     const [user, setUser] = useState<Keycloak.KeycloakInstance | null>(null);
@@ -29,11 +29,10 @@ function App() {
 
     useEffect(() => {
         const createKeycloak = async () => {
-            const keycloak = Keycloak(KEYCLOAK_CONFIG);
+            const keycloak = Keycloak("/keycloak.json");
 
             await keycloak.init({
                 onLoad: "login-required",
-                redirectUri: "http://localhost:3000",
             });
             setKeycloak(keycloak);
             setAuthenticated(keycloak.authenticated);
