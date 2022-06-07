@@ -6,7 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.UUID;
 
 @Getter
@@ -22,14 +25,8 @@ public class SubjectSelectionEntity {
     @Column(name = "id", unique = true, nullable = false, updatable = false, columnDefinition = "uuid")
     private UUID id;
 
-    @Column(name="subject_id", nullable = false)
+    @Column(name = "subject_id", nullable = false, columnDefinition = "uuid")
     private UUID subject;
-
-    //Registration ID
-    @OneToOne
-    @JoinColumn(name="registration_id", nullable = false)
-    private RegistrationEntity registrationEntity;
-
 
     @Column(name = "points", nullable = false)
     private Integer points;

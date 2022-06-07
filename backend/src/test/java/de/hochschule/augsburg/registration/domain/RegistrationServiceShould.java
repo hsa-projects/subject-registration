@@ -90,7 +90,6 @@ public class RegistrationServiceShould extends BaseServiceTest {
     @Order(2)
     @Test
     @DisplayName("shouldGetRegistrationByStudent()")
-    @Rollback(false)
     public void shouldGetRegistrationByStudent() {
 
         // Act
@@ -103,8 +102,20 @@ public class RegistrationServiceShould extends BaseServiceTest {
     @Order(2)
     @Test
     @DisplayName("shouldDeleteRegistration()")
-    @Rollback(false)
     public void shouldDeleteRegistration() {
+
+        // Act
+        final Registration registration = this.registrationService.getRegistrationByStudent("max.mustermann").orElseThrow();
+        this.registrationService.deleteRegistration(registration.getId(), "max.mustermann");
+
+        // Assert
+        assertTrue(this.registrationService.getRegistrationByStudent("max.mustermann").isEmpty());
+    }
+
+    @Order(2)
+    @Test
+    @DisplayName("shouldDeleteRegistration2()")
+    public void shouldDeleteRegistration2() {
 
         // Act
         final Registration registration = this.registrationService.getRegistrationByStudent("max.mustermann").orElseThrow();

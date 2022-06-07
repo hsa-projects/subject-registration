@@ -1,6 +1,5 @@
 package de.hochschule.augsburg.registration.infrastructure.entity;
 
-import de.hochschule.augsburg.registrationWindow.infrastructure.entity.RegistrationWindowEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,8 +30,7 @@ public class RegistrationEntity {
     @JoinColumn(name = "subjectSelection_id")
     private List<SubjectSelectionEntity> subjectSelection;
 
-    @OneToOne
-    @JoinColumn(name= "registration_window_id")
-    private RegistrationWindowEntity registrationWindowEntity;
+    @JoinColumn(name = "registration_window_id", columnDefinition = "uuid")
+    private UUID registrationWindowId;
 
 }

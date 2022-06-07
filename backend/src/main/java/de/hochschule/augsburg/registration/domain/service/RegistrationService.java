@@ -12,6 +12,7 @@ import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.variable.VariableMap;
 import org.camunda.bpm.engine.variable.Variables;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -138,8 +139,11 @@ public class RegistrationService {
                 .orElseThrow();
     }
 
-    public List<Registration> getRegistrationsByRegistrationWindowAndSubject(UUID registrationWindowId, UUID subjectId) {
-       return this.registrationMapper.map(this.registrationRepository.findByRegistrationWindowAndSubject(registrationWindowId,subjectId));
-
+    public List<Registration> getRegistrationsByRegistrationWindowAndSubject(final UUID registrationWindowId, final UUID subjectId, final String userId) {
+        //1 check if user has acces to subject
+        if (!this.subjectService.hasAccess(userId, subjectId)) {
+            throw new AccessDeniedException("No access to corresponding subject");
+        }
+        return this.registrationMapper.map(this.registrationRepository.findByRegistrationWindowAndSubject(registrationWindowId, subjectId));
     }
 }

@@ -82,9 +82,9 @@ public class RegistrationController {
 
     @Transactional
     @GetMapping("/{registrationWindowId}/{subjectId}")
-    @Operation(summary="Retrieve all registrations for a login window and elective subject")
-    public ResponseEntity<List<RegistrationTO>> getRegistrationsByRegistrationWindowAndSubject(@PathVariable("registrationWindowId") final UUID registrationWindowId,@PathVariable("subjectId") final UUID subjectId){
-        final List<Registration> registrations = this.registrationService.getRegistrationsByRegistrationWindowAndSubject(registrationWindowId,subjectId);
+    @Operation(summary = "Retrieve all registrations for a login window and elective subject")
+    public ResponseEntity<List<RegistrationTO>> getRegistrationsByRegistrationWindowAndSubject(@PathVariable("registrationWindowId") final UUID registrationWindowId, @PathVariable("subjectId") final UUID subjectId) {
+        final List<Registration> registrations = this.registrationService.getRegistrationsByRegistrationWindowAndSubject(registrationWindowId, subjectId, this.userContext.getLoggedInUser());
         return ResponseEntity.ok().body(this.registrationApiMapper.map(registrations));
     }
 }
