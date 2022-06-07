@@ -1,5 +1,5 @@
 import userContext from "../../context/userContext";
-import { MASTER_MAJORS, COURSE_CATALOGUE } from "../../App";
+import { MASTER_MAJORS, COURSE_CATALOGUE } from "@/server_constants";
 import { useEffect, useState, useContext } from "react";
 
 const FWP_DETAIL_URL =
@@ -11,12 +11,13 @@ const FWP_DETAIL_URL =
  * @constructor
  */
 function Info() {
+  
   const { user } = useContext(userContext);
-  const [userInfo, setUserInfo] = useState(null);
+  const [userInfo, setUserInfo] = useState<Keycloak.KeycloakInstance | null>(null);
 
   useEffect(() => {
     const loadUser = async () => {
-      const userInfo = await user.loadUserInfo();
+      const userInfo = await user.loadUserInfo() as any;
       setUserInfo(userInfo);
     };
     if (user && !userInfo) {
@@ -38,11 +39,11 @@ function Info() {
             Detaillerte Informationen zu den Wahlpflichtfächern finden Sie im{" "}
             <a
               href={
-                userInfo
-                  ? MASTER_MAJORS.includes(userInfo.degreeCourse)
-                    ? COURSE_CATALOGUE.MASTER
-                    : COURSE_CATALOGUE.BACHELOR
-                  : "/"
+                //</p>userInfo
+                 // ? MASTER_MAJORS.includes(userInfo.degreeCourse)
+                  //  ? COURSE_CATALOGUE.MASTER
+                     COURSE_CATALOGUE.BACHELOR
+                  //: "/"
               }
             >
               Modulhandbuch
