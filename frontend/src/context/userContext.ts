@@ -1,4 +1,6 @@
-import {createContext} from "react";
+import { createContext } from "react";
+
+import Keycloak from "keycloak-js";
 
 /**
  * Saves the credentials of the currently logged in user.
@@ -6,7 +8,7 @@ import {createContext} from "react";
  */
 const userContext = createContext({
     user: {},
-    setUser: (user) => {}
+    setUser: (user: Keycloak.KeycloakInstance) => { }
 });
 
 export default userContext;
