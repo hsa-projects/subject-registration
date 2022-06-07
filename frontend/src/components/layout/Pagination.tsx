@@ -15,7 +15,7 @@ interface PaginationProps {
     /**
      * Array which holds all subjects currently marked to enroll by the user.
      */
-    subjectSelection: any[],
+    subjectSelection?: any[],
 
     /**
      * Number of pages shown in the pagination.
