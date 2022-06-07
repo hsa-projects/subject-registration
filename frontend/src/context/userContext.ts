@@ -7,7 +7,7 @@ import Keycloak from "keycloak-js";
  * @type {React.Context<{user: {}}>}
  */
 const userContext = createContext({
-    user: {},
+    user: {} as Keycloak.KeycloakInstance,
     setUser: (user: Keycloak.KeycloakInstance) => { }
 });
 
