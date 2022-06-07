@@ -1,6 +1,5 @@
 package de.hochschule.augsburg.registration.infrastructure.entity;
 
-import de.hochschule.augsburg.subject.infrastructure.entity.SubjectEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,12 +19,11 @@ public class SubjectSelectionEntity {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(name = "id", unique = true, nullable = false, updatable = false, columnDefinition = "BINARY(16)")
+    @Column(name = "id", unique = true, nullable = false, updatable = false, columnDefinition = "uuid")
     private UUID id;
 
-    @OneToOne
-    @JoinColumn(name="subject_id", nullable = false)
-    private SubjectEntity subjectEntity;
+    @Column(name="subject_id", nullable = false)
+    private UUID subject;
 
     //Registration ID
     @OneToOne

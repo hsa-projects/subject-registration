@@ -3,26 +3,20 @@ package de.hochschule.augsburg.registration.domain.service;
 import de.hochschule.augsburg.registration.domain.mapper.RegistrationMapper;
 import de.hochschule.augsburg.registration.domain.model.Registration;
 import de.hochschule.augsburg.registration.domain.model.RegistrationUpdate;
-import de.hochschule.augsburg.registration.domain.model.SubjectSelection;
-import de.hochschule.augsburg.registration.domain.process.RegistrationProcessVariables;
 import de.hochschule.augsburg.registration.infrastructure.entity.RegistrationEntity;
 import de.hochschule.augsburg.registration.infrastructure.repository.RegistrationRepository;
 import de.hochschule.augsburg.subject.domain.service.SubjectService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.camunda.bpm.engine.ManagementService;
 import org.camunda.bpm.engine.RuntimeService;
-import org.camunda.bpm.engine.TaskService;
-
 import org.camunda.bpm.engine.variable.VariableMap;
 import org.camunda.bpm.engine.variable.Variables;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -37,9 +31,6 @@ public class RegistrationService {
     private final RegistrationMapper registrationMapper;
     private final SubjectService subjectService;
     private final RuntimeService runtimeService;
-    private final TaskService taskService;
-    private final ManagementService managementService;
-    private final RegistrationProcessVariables registrationProcessVariables;
 
     /**
      * Get all registrations.
@@ -59,9 +50,10 @@ public class RegistrationService {
      * @param user Id of the student
      * @return registration
      */
-    public Registration getRegistrationByStudent(final String user) {
+    public Optional<Registration> getRegistrationByStudent(final String user) {
         // Todo Check uid is equal to logged user, only admin and owner should be able to get registration
-        return this.registrationMapper.map(this.registrationRepository.findByStudent(user));
+        return this.registrationRepository.findByStudent(user)
+                .map(this.registrationMapper::map);
     }
 
     /**
@@ -74,13 +66,13 @@ public class RegistrationService {
     public Registration createRegistration(final Registration newRegistration, final String student) {
         // Todo only students and admin should be able to create a new registration
 
-        VariableMap variables = Variables.createVariables();
+        final VariableMap variables = Variables.createVariables();
 
         variables.put("student", student);
-        final Registration existRegistration = this.getRegistrationByStudent(student);
+        final Optional<Registration> existRegistration = this.getRegistrationByStudent(student);
 
 
-        if (existRegistration != null) {
+        if (existRegistration.isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Registration for " + student + " already exists");
         }
 
@@ -103,8 +95,7 @@ public class RegistrationService {
      * Update an existing registration.
      *
      * @param registrationUpdate Update that is applied
-     * @param student ID of the student
-     *
+     * @param student            ID of the student
      * @return the updated registration
      */
     public Registration updateRegistration(final RegistrationUpdate registrationUpdate, final String student) {
