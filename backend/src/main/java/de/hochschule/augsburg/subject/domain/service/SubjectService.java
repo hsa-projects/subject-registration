@@ -61,6 +61,10 @@ public class SubjectService {
         this.subjectRepository.deleteSubjectByName(subjectName);
     }
 
+    public void deleteAllSubjects() {
+        this.subjectRepository.deleteAll();
+    }
+
     /**
      * Update an existing subject.
      *

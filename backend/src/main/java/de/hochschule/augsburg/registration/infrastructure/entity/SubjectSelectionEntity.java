@@ -16,7 +16,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "hsa_subject_selection")
+@Entity(name = "hsa__selection")
 public class SubjectSelectionEntity {
 
     @Id
