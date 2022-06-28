@@ -31,7 +31,7 @@ public class SubjectEntity {
     @Column(name = "cp", nullable = false)
     private Float creditPoints;
 
-    @Column(name= "description", nullable = true)
+    @Column(name= "description", nullable = true, length = 4096)
     private String description;
 
     @Column(name = "specialization", nullable = true)
