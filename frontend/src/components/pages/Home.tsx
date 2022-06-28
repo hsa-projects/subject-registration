@@ -1,8 +1,9 @@
-import { RegistrationControllerApi, SubjectControllerApi, SubjectTO } from "@/api";
-import { useContext, useEffect, useState } from "react";
+import {SubjectTO} from "@/api";
+import {useContext, useEffect} from "react";
 import userContext from "../../context/userContext";
 import SubjectSelectionContext from "../../context/subjectSelectionContext";
-import { getRequestHeaders } from "../../util/util";
+import {getRequestHeaders} from "@/util/util";
+import {RegistrationApi, SubjectApi} from "@/util/apis";
 
 const IMPRINT_URL = "https://www.hs-augsburg.de/Service/Impressum.html";
 
@@ -12,8 +13,6 @@ const IMPRINT_URL = "https://www.hs-augsburg.de/Service/Impressum.html";
  * @constructor
  */
 function Home() {
-    const registrationApi = new RegistrationControllerApi();
-    const subjectApi = new SubjectControllerApi();
     const { user, setUser } = useContext(userContext);
     const { subjectSelection, setSubjectSelection } = useContext(
         SubjectSelectionContext
@@ -23,7 +22,7 @@ function Home() {
     useEffect(() => {
         const loadUsers = async () => {
             if (!subjectSelection) {
-                const registrationResponse = await registrationApi.getRegistration(
+                const registrationResponse = await RegistrationApi.getRegistration(
                     user.subject!,
                     getRequestHeaders(user)
                 );
@@ -35,7 +34,7 @@ function Home() {
                     return;
                 }
 
-                const subjectResponse = await subjectApi.getAllSubjects(
+                const subjectResponse = await SubjectApi.getAllSubjects(
                     getRequestHeaders(user)
                 );
                 const userSubjects = [] as SubjectTO[];

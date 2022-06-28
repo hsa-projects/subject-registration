@@ -1,12 +1,12 @@
-import { URLS } from "@/server_constants";
-import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import {URLS} from "@/server_constants";
+import React, {useContext, useEffect, useState} from "react";
+import {Link} from "react-router-dom";
 import RegistrationTableItem from "../RegistrationTableItem";
 import SubjectSelectionContext from "../../context/subjectSelectionContext";
 import userContext from "../../context/userContext";
-import { RegistrationControllerApi, RegistrationTO } from "@/api";
-import { getRequestHeaders } from "../../util/util";
-import Keycloak from "keycloak-js";
+import {RegistrationTO} from "@/api";
+import {getRequestHeaders} from "@/util/util";
+import {RegistrationApi} from "@/util/apis";
 
 const REG_STATUS = {
     RECEIVED: "Antrag eingegangen",
@@ -24,7 +24,6 @@ const REG_BTN_MAP = {
  * @constructor
  */
 function MyRegistrations() {
-    const registrationApi = new RegistrationControllerApi();
     const { user, setUser } = useContext(userContext);
     const [userInfo, setUserInfo] = useState<any>(null);
     const [registration, setRegistration] = useState<RegistrationTO | null>(null);
@@ -34,7 +33,7 @@ function MyRegistrations() {
         const loadUser = async () => {
             const userInfo = await user.loadUserInfo();
             setUserInfo(userInfo);
-            const registrationResponse = await registrationApi.getRegistration(
+            const registrationResponse = await RegistrationApi.getRegistration(
                 user.subject!,
                 getRequestHeaders(user)
             );
@@ -97,7 +96,7 @@ function MyRegistrations() {
         if (registration) {
             // todo api not tested yet
             // update existing registration of the user if it was already created
-            return registrationApi
+            return RegistrationApi
                 .updateRegistration(
                     {
                         id: user.subject!,
@@ -146,7 +145,7 @@ function MyRegistrations() {
 
             console.log(`create new registration with ${JSON.stringify(arr)}`);
 
-            return registrationApi
+            return RegistrationApi
                 .createNewRegistration({
                     student: user.idTokenParsed!.preferred_username,
                     subjectSelection: arr,

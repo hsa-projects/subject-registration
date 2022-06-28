@@ -1,8 +1,9 @@
-import { useParams, useNavigate, Link } from "react-router-dom";
-import React, { useContext, useEffect, useState } from "react";
+import {Link, useNavigate, useParams} from "react-router-dom";
+import React, {useContext, useEffect, useState} from "react";
 import userContext from "../../context/userContext";
-import { SubjectControllerApi, SubjectTO } from "../../api";
-import { getRequestHeaders } from "../../util/util";
+import {SubjectTO} from "@/api";
+import {getRequestHeaders} from "@/util/util";
+import {SubjectApi} from "@/util/apis";
 
 import Keycloak from "keycloak-js";
 
@@ -22,7 +23,6 @@ interface SubjectDetailProps {
  * @constructor
  */
 function SubjectDetail(props: SubjectDetailProps) {
-    const subjectApi = new SubjectControllerApi();
     const { user, setUser } = useContext(userContext);
     const [userInfo, setUserInfo] = useState<Keycloak.KeycloakInstance | null>(null);
     const [subject, setSubject] = useState<SubjectTO>();
@@ -39,7 +39,7 @@ function SubjectDetail(props: SubjectDetailProps) {
             console.log("[SubjectDetail] selected subject: " + subjectName);
             console.log("[SubjectDetail] props:");
             // fetch subject info from backend
-            const subjectResponse = await subjectApi.getAllSubjects(
+            const subjectResponse = await SubjectApi.getAllSubjects(
                 getRequestHeaders(user)
             );
             const subject = subjectResponse.data.find(
