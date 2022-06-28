@@ -1,5 +1,4 @@
-import { URLS } from "@/server_constants";
-import { useNavigate, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import React, { useContext } from "react";
 import SubjectSelectionContext from "../context/subjectSelectionContext";
 
@@ -64,9 +63,6 @@ interface SubjectCardViewProps {
 }
 
 function SubjectCardView(props: SubjectCardViewProps) {
-    let navigate = useNavigate();
-    const location = useLocation();
-
     const { subjectSelection, setSubjectSelection } = useContext(
         SubjectSelectionContext
     ) || {};
@@ -74,24 +70,6 @@ function SubjectCardView(props: SubjectCardViewProps) {
     if (!setSubjectSelection) {
         return <></>;
     }
-
-    /**
-     * Handle clicks on a subject title.
-     * @param {MouseEvent} e Instance of the mouse event.
-     */
-    const handleSubjectClick = (e: React.SyntheticEvent) => {
-        const link = props.subject.replace(" ", "_");
-        console.log(
-            `[SubjectCardView][handleSubjectClick] clicked on the subject ${link}!`
-        );
-        navigate(`${URLS.SUBJECTS}/${link}`, {
-            state: {
-                subject: props,
-                prevPath: location.pathname,
-            },
-        });
-        e.preventDefault();
-    };
 
     /**
      * Handle clicks on the register/unregister button of a subject card. Opens the subject detail page.
@@ -126,9 +104,11 @@ function SubjectCardView(props: SubjectCardViewProps) {
         <div className="col">
             <div className="card">
                 <div className="card-body subject-card">
-                    <h5 className="card-title" onClick={(e) => handleSubjectClick(e)}>
-                        {props.subject}
-                    </h5>
+                    <Link to={props.id}>
+                        <h5 className="card-title">
+                            {props.subject}
+                        </h5>
+                    </Link>
                     <h6 className="card-subtitle">
                         {props.professor} | {props.creditPoints} CP
                     </h6>

@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import React, { useContext, useEffect, useState } from "react";
 import userContext from "../../context/userContext";
 import { SubjectControllerApi, SubjectTO } from "../../api";
@@ -43,7 +43,7 @@ function SubjectDetail(props: SubjectDetailProps) {
                 getRequestHeaders(user)
             );
             const subject = subjectResponse.data.find(
-                (s) => s.name === subjectName
+                (s) => s.id === subjectName
             );
             setSubject(subject);
         };
@@ -66,14 +66,15 @@ function SubjectDetail(props: SubjectDetailProps) {
             <div className="container main">
                 <div className="row" style={{ marginBottom: "0.75em" }}>
                     <p style={{ color: "#F00045" }}>
-                        <a href="." onClick={(e) => goBack(e)}>
-                            {previousPath
-                                ? PREVIOUS_PATH_MAP[previousPath]
-                                : PREVIOUS_PATH_MAP["/subjects"]}
-                        </a>{" "}
-                        / <a href="/">{subjectName}</a>
+                        <Link to="/subjects">
+                            Übersicht
+                        </Link>
+                        <span> / </span>
+                        <Link to=".">
+                            {subject?.name}
+                        </Link>
                     </p>
-                    <h2 style={{ marginBottom: "0.5em" }}>{subjectName}</h2>
+                    <h2 style={{ marginBottom: "0.5em" }}>{subject?.name}</h2>
                     {/* todo correct link */}
                     <p>
                         Detailliertere Informationen finden Sie im{" "}
