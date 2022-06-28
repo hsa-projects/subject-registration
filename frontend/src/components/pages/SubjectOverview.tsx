@@ -1,10 +1,11 @@
-import { useContext, useEffect, useState } from "react";
-import { SubjectControllerApi, SubjectTO } from "@/api";
+import {useContext, useEffect, useState} from "react";
+import {SubjectTO} from "@/api";
 import Pagination from "../layout/Pagination";
-import { MASTER_MAJORS, COURSE_CATALOGUE } from "@/server_constants";
+import {COURSE_CATALOGUE} from "@/server_constants";
 import SubjectSelectionContext from "../../context/subjectSelectionContext";
 import userContext from "../../context/userContext";
-import { getRequestHeaders } from "../../util/util";
+import {getRequestHeaders} from "@/util/util";
+import {SubjectApi} from "@/util/apis";
 import Keycloak from "keycloak-js";
 
 // defines the max. number of subjects that should be shown on one page.
@@ -17,7 +18,6 @@ const NO_SUBJECTS = "Momentan sind keine Wahlpflichtfächer vorhanden.";
  * Provides an overview of all available subjects.
  */
 function SubjectOverview() {
-    const subjectApi = new SubjectControllerApi();
     const { user, setUser } = useContext(userContext);
     const [userInfo, setUserInfo] = useState<Keycloak.KeycloakInstance | null>(null);
     const [subjects, setSubjects] = useState<SubjectTO[] | null>(null);
@@ -33,7 +33,7 @@ function SubjectOverview() {
             setUserInfo(userInfo);
             if (!subjects) {
                 console.log("get subjects!");
-                const subjectResponse = await subjectApi.getAllSubjects(
+                const subjectResponse = await SubjectApi.getAllSubjects(
                     getRequestHeaders(user)
                 );
                 console.log(`got ${subjectResponse.data.length} subjects`);
