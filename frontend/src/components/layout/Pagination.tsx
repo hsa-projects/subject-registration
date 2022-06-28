@@ -33,7 +33,7 @@ function Pagination(props: PaginationProps) {
     const [currentPage, setCurrentPage] = useState(1);
     const { subjectSelection, setSubjectSelection } = useContext(SubjectSelectionContext) || {};
 
-    if (!subjectSelection || !setSubjectSelection) {
+    if (!setSubjectSelection) {
         return <></>;
     }
 

@@ -71,7 +71,7 @@ function SubjectCardView(props: SubjectCardViewProps) {
         SubjectSelectionContext
     ) || {};
 
-    if (!subjectSelection || !setSubjectSelection) {
+    if (!setSubjectSelection) {
         return <></>;
     }
 
